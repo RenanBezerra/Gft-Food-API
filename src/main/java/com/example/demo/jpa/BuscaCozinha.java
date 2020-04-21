@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.example.demo.GftFoodApiApplication;
 import com.example.demo.domain.model.Cozinha;
+import com.example.demo.domain.repository.CozinhaRepository;
 
 public class BuscaCozinha {
 
@@ -13,9 +14,9 @@ public class BuscaCozinha {
 		ApplicationContext aplicationContext = new SpringApplicationBuilder(GftFoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-		CadastroCozinha cadastroCozinha = aplicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = aplicationContext.getBean(CozinhaRepository.class);
 
-		Cozinha cozinha = cadastroCozinha.buscar(1l);
+		Cozinha cozinha = cozinhaRepository.buscar(1l);
 
 		System.out.println(cozinha.getNome());
 

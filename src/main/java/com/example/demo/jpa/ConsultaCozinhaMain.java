@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.example.demo.GftFoodApiApplication;
 import com.example.demo.domain.model.Cozinha;
+import com.example.demo.domain.repository.CozinhaRepository;
 
 public class ConsultaCozinhaMain {
 
@@ -15,9 +16,9 @@ public class ConsultaCozinhaMain {
 		ApplicationContext aplicationContext = new SpringApplicationBuilder(GftFoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-		CadastroCozinha cadastroCozinha = aplicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = aplicationContext.getBean(CozinhaRepository.class);
 
-		List<Cozinha> cozinhas = cadastroCozinha.listar();
+		List<Cozinha> cozinhas = cozinhaRepository.listar();
 
 		for (Cozinha cozinha : cozinhas) {
 			System.out.println(cozinha.getNome());
