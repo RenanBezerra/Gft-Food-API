@@ -11,10 +11,9 @@ public class Cozinha {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -55,7 +54,5 @@ public class Cozinha {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }
