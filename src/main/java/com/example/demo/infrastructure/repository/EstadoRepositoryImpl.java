@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.model.Estado;
 import com.example.demo.domain.repository.EstadoRepository;
 
+@Component
 public class EstadoRepositoryImpl implements EstadoRepository {
 
 	@PersistenceContext
@@ -17,7 +19,8 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
 	@Override
 	public List<Estado> listar() {
-		return manager.createQuery("from Estado", Estado.class).getResultList();
+		return manager.createQuery("from Estado", Estado.class)
+				.getResultList();
 	}
 
 	@Override
