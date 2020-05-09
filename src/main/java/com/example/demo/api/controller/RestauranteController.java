@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.domain.exception.EntidadeEmUsoException;
 import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.repository.RestauranteRepository;
@@ -34,7 +36,7 @@ public class RestauranteController {
 		return restauranteRepository.listar();
 	}
 
-	@GetMapping("/{RestauranteId}")
+	@GetMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = restauranteRepository.buscar(restauranteId);
 
@@ -59,8 +61,7 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{restauranteId}")
-	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, 
-			@RequestBody Restaurante restaurante) {
+	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
 
 		try {
 
@@ -81,6 +82,20 @@ public class RestauranteController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
+	}
+
+	@DeleteMapping("/{restauranteId}")
+	public ResponseEntity<?> remover(@PathVariable Long restauranteId) {
+		try {
+			cadastroRestauranteService.excluir(restauranteId);
+			return ResponseEntity.noContent().build();
+
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.notFound().build();
+		} catch (EntidadeEmUsoException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+			// TODO: handle exception
+		}
 	}
 
 }
