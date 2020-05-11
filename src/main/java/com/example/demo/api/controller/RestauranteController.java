@@ -1,13 +1,14 @@
 package com.example.demo.api.controller;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.Mergeable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,7 @@ import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.repository.RestauranteRepository;
 import com.example.demo.domain.service.CadastroRestauranteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -117,9 +119,21 @@ public class RestauranteController {
 		
 	}
 	
-	private void merge(Map<String, Object> camposOrigem, Restaurante restauranteDestino) {
-		camposOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
+		
+		dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+			Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
+			field.setAccessible(true);
+			
+			Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+			
 			System.out.println(nomePropriedade + "=" + valorPropriedade);
+			
+			
+			ReflectionUtils.setField(field, restauranteDestino,novoValor);
+			
 		});
 	}
 
