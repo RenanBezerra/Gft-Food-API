@@ -1,8 +1,5 @@
 package com.example.demo.api.controller;
 
-import static com.example.demo.infrastructure.repository.spec.RestaurantesSpecs.comFreteGratis;
-import static com.example.demo.infrastructure.repository.spec.RestaurantesSpecs.comNomeSemelhante;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -83,7 +80,7 @@ public class TesteController {
 	@GetMapping("/restaurantes/com-frete-gratis")
 	public List<Restaurante> restaurantesComFreteGratis(String nome) {
 
-		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+		return restauranteRepository.findComFreteGratis(nome);
 	}
 
 }
