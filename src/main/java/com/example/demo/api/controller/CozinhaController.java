@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.exception.EntidadeEmUsoException;
-import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.model.Cozinha;
 import com.example.demo.domain.repository.CozinhaRepository;
 import com.example.demo.domain.service.CadastroCozinhaService;
@@ -37,8 +35,6 @@ public class CozinhaController {
 	public List<Cozinha> listar() {
 		return cozinhaRepository.findAll();
 	}
-
-
 
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
@@ -60,8 +56,7 @@ public class CozinhaController {
 	}
 
 	@PutMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId,
-			@RequestBody Cozinha cozinha) {
+	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
 		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
 
 		if (cozinhaAtual.isPresent()) {
@@ -74,17 +69,10 @@ public class CozinhaController {
 	}
 
 	@DeleteMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
-		try {
-			cadastroCozinhaService.excluir(cozinhaId);
-			return ResponseEntity.noContent().build();
-			
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.notFound().build();
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long cozinhaId) {
 
-		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
+		cadastroCozinhaService.excluir(cozinhaId);
 	}
 
 }
