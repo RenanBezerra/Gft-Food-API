@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.exception.EntidadeEmUsoException;
-import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
+import com.example.demo.domain.exception.EstadoNaoEncontradaException;
 import com.example.demo.domain.model.Estado;
 import com.example.demo.domain.repository.EstadoRepository;
 
@@ -27,8 +27,8 @@ public class CadastroEstadoService {
 			estadoRepository.deleteById(estadoId);
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(
-					String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId));
+			throw new EstadoNaoEncontradaException(
+					 estadoId);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
 					String.format(MSG_ESTADO_EM_USO, estadoId));
@@ -38,8 +38,8 @@ public class CadastroEstadoService {
 
 	public Estado buscarOuFalhar(Long estadoId) {
 		return estadoRepository.findById(estadoId)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException(
-						String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId)));
+				.orElseThrow(() -> new EstadoNaoEncontradaException(
+						 estadoId));
 	}
 	
 }
