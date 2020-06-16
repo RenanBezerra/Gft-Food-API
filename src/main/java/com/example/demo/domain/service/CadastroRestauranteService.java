@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.exception.EntidadeEmUsoException;
-import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
+import com.example.demo.domain.exception.RestauranteNaoEncontradoException;
 import com.example.demo.domain.model.Cozinha;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.repository.CozinhaRepository;
@@ -43,9 +43,7 @@ public class CadastroRestauranteService {
 		try {
 			restauranteRepository.deleteById(restauranteId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(
-
-					String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId));
+			throw new RestauranteNaoEncontradoException(restauranteId);
 
 		} catch (DataIntegrityViolationException e) {
 
@@ -54,7 +52,7 @@ public class CadastroRestauranteService {
 	}
 
 	public Restaurante buscarOuFalhar(Long cidadeId) {
-		return restauranteRepository.findById(cidadeId).orElseThrow(
-				() -> new EntidadeNaoEncontradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, cidadeId)));
+		return restauranteRepository.findById(cidadeId)
+				.orElseThrow(() -> new RestauranteNaoEncontradoException(cidadeId));
 	}
 }
