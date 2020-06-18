@@ -51,8 +51,8 @@ public class CadastroRestauranteService {
 		}
 	}
 
-	public Restaurante buscarOuFalhar(Long cidadeId) {
-		return restauranteRepository.findById(cidadeId)
-				.orElseThrow(() -> new RestauranteNaoEncontradoException(cidadeId));
+	public Restaurante buscarOuFalhar(Long restauranteId) {
+		return restauranteRepository.findById(restauranteId)
+				.orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
 	}
 }
