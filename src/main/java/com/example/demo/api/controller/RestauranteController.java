@@ -30,7 +30,7 @@ import com.example.demo.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@RequestMapping("/restaurantes")
+@RequestMapping(value = "/restaurantes")
 public class RestauranteController {
 
 	@Autowired
@@ -63,15 +63,15 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
 
-		Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(restauranteId);
-
-		BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
-				"produtos");
-
 		try {
+			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(restauranteId);
+
+			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
+					"produtos");
+
 			return cadastroRestauranteService.salvar(restauranteAtual);
 
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 
@@ -111,7 +111,7 @@ public class RestauranteController {
 
 			Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
 
-			System.out.println(nomePropriedade + "=" + valorPropriedade);
+			System.out.println(nomePropriedade + " = " + valorPropriedade + " = " + novoValor);
 
 			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 
