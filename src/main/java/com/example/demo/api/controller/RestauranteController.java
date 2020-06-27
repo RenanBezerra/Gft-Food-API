@@ -52,6 +52,8 @@ public class RestauranteController {
 
 	@GetMapping("/{restauranteId}")
 	public Restaurante buscar(@PathVariable Long restauranteId) {
+		
+	
 		return cadastroRestauranteService.buscarOuFalhar(restauranteId);
 	}
 
