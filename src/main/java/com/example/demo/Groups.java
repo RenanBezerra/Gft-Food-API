@@ -2,5 +2,5 @@ package com.example.demo;
 
 public interface Groups {
 
-	public interface CadastroRestaurante{}
+	public interface CozinhaId{}
 }
