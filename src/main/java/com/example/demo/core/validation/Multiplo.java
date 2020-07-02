@@ -18,14 +18,15 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { })
-@PositiveOrZero
-public @interface TaxaFrete {
+@Constraint(validatedBy = { MultiploValidator.class })
+public @interface Multiplo {
 
 	@OverridesAttribute(constraint = PositiveOrZero.class, name = "message")
-	String message() default "{TaxaFrete.invalida}";
+	String message() default "múltiplo invalido";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+	
+	int numero();
 }
