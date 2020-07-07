@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.demo.domain.exception.CozinhaNaoEncontradaException;
+import com.example.demo.domain.exception.EntidadeEmUsoException;
 import com.example.demo.domain.model.Cozinha;
 import com.example.demo.domain.service.CadastroCozinhaService;
 
@@ -37,14 +39,24 @@ public class CadastroCozinhaIntegrationTests {
 
 	@Test(expected = ConstraintViolationException.class)
 	public void deveFalhar_QuandoCadastrarCozinhaSemNome() {
-		//cenario
+		// cenario
 		Cozinha novaCozinha = new Cozinha();
 		novaCozinha.setNome(null);
-		
-		//acao
+
+		// acao
 		novaCozinha = cadastroCozinhaService.salvar(novaCozinha);
-		
-		
-		//validacao
+
+		// validacao
 	}
+
+	@Test(expected = EntidadeEmUsoException.class)
+	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+		cadastroCozinhaService.excluir(1L);
+	}
+
+	@Test(expected = CozinhaNaoEncontradaException.class)
+	public void deveFalhar_QuandoExcluirCozinhaInexistente() {
+		cadastroCozinhaService.excluir(100L);
+	}
+
 }
