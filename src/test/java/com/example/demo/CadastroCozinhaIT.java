@@ -17,7 +17,7 @@ import com.example.demo.domain.service.CadastroCozinhaService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CadastroCozinhaIntegrationTests {
+public class CadastroCozinhaIT {
 
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
