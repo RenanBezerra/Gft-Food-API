@@ -12,8 +12,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fasterxml.jackson.databind.Module.SetupContext;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
@@ -23,37 +21,37 @@ public class CadastroCozinhaIT {
 
 	@LocalServerPort
 	private int port;
-	
+
 	@Before
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
-		
+
 	}
-	
+
 	@Test
 	public void deveRetornarStatus200_QuandoConsultarCozinhas() {
-		
-		given()
-			.accept(ContentType.JSON)
-		.when()
-			.get()
-		.then()
-			.statusCode(HttpStatus.OK.value());
+
+		given().accept(ContentType.JSON).when().get().then().statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
 	public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
-		
-		given()
-			.accept(ContentType.JSON)
-		.when()
-			.get()
-		.then()
-			.body("", hasSize(4))
-			.body("nome", hasItems("Indiana","Tailandesa"));
+
+		given().accept(ContentType.JSON).when().get().then().body("", hasSize(4)).body("nome",
+				hasItems("Indiana", "Tailandesa"));
 	}
 
-
+	@Test
+	public void deveRetornarStatus201_QuandoCadastrarCozinha() {
+		given()
+			.body("{\"nome\":\"Chinesa\"}")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.CREATED.value());
+	}
 }
