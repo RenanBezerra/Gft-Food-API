@@ -15,6 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.demo.domain.model.Cozinha;
+import com.example.demo.domain.repository.CozinhaRepository;
+import com.example.demo.util.DatabaseCleaner;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
@@ -27,17 +31,31 @@ public class CadastroCozinhaIT {
 	private int port;
 	
 	@Autowired
-	private Flyway flyway;
+	private DatabaseCleaner databaseCleaner;
 	
-	
+	@Autowired
+	private CozinhaRepository cozinhaRepository;
 
 	@Before
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
+		
+		databaseCleaner.clearTables();
+		prepararDados();
 
-		flyway.migrate();
+	}
+
+	private void prepararDados() {
+
+		Cozinha cozinha1 = new Cozinha();
+		cozinha1.setNome("Tailandesa");
+		cozinhaRepository.save(cozinha1);
+		
+		Cozinha cozinha2 = new Cozinha();
+		cozinha2.setNome("Americana");
+		cozinhaRepository.save(cozinha2);
 	}
 
 	@Test
@@ -47,9 +65,9 @@ public class CadastroCozinhaIT {
 	}
 
 	@Test
-	public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
+	public void deveConter2Cozinhas_QuandoConsultarCozinhas() {
 
-		given().accept(ContentType.JSON).when().get().then().body("", hasSize(4)).body("nome",
+		given().accept(ContentType.JSON).when().get().then().body("", hasSize(2)).body("nome",
 				hasItems("Indiana", "Tailandesa"));
 	}
 
