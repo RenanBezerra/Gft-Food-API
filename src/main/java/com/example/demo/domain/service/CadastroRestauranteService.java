@@ -1,11 +1,8 @@
 package com.example.demo.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.exception.EntidadeEmUsoException;
 import com.example.demo.domain.exception.RestauranteNaoEncontradoException;
 import com.example.demo.domain.model.Cozinha;
 import com.example.demo.domain.model.Restaurante;
@@ -39,17 +36,7 @@ public class CadastroRestauranteService {
 
 	}
 
-	public void excluir(Long restauranteId) {
-		try {
-			restauranteRepository.deleteById(restauranteId);
-		} catch (EmptyResultDataAccessException e) {
-			throw new RestauranteNaoEncontradoException(restauranteId);
-
-		} catch (DataIntegrityViolationException e) {
-
-			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
-		}
-	}
+	
 
 	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
