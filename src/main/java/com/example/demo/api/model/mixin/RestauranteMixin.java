@@ -1,6 +1,6 @@
 package com.example.demo.api.model.mixin;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.example.demo.domain.model.Cozinha;
@@ -18,11 +18,11 @@ public abstract class RestauranteMixin {
 	@JsonIgnore
 	private Endereco endereco;
 
-	@JsonIgnore
-	private LocalDateTime dataCadastro;
+	// @JsonIgnore
+	private OffsetDateTime dataCadastro;
 
-	@JsonIgnore
-	private LocalDateTime dataAtualizacao;
+	// @JsonIgnore
+	private OffsetDateTime dataAtualizacao;
 
 	@JsonIgnore
 	private List<FormaPagamento> formasPagamento;
