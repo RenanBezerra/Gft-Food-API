@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.api.model.RestauranteModel;
 import com.example.demo.domain.exception.CozinhaNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.model.Restaurante;
@@ -32,7 +33,7 @@ public class RestauranteController {
 
 	@Autowired
 	private CadastroRestauranteService cadastroRestauranteService;
-	
+
 	@Autowired
 	private SmartValidator validator;
 
@@ -42,9 +43,11 @@ public class RestauranteController {
 	}
 
 	@GetMapping("/{restauranteId}")
-	public Restaurante buscar(@PathVariable Long restauranteId) {
+	public RestauranteModel buscar(@PathVariable Long restauranteId) {
+		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
-		return cadastroRestauranteService.buscarOuFalhar(restauranteId);
+		RestauranteModel restauranteModel = null;
+		return restauranteModel;
 	}
 
 	@PostMapping
@@ -75,5 +78,4 @@ public class RestauranteController {
 
 	}
 
-	
 }
