@@ -4,10 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.api.model.mixin.CidadeMixin;
 import com.example.demo.api.model.mixin.CozinhaMixin;
-import com.example.demo.api.model.mixin.RestauranteMixin;
 import com.example.demo.domain.model.Cidade;
 import com.example.demo.domain.model.Cozinha;
-import com.example.demo.domain.model.Restaurante;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @Component
