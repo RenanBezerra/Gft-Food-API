@@ -42,9 +42,9 @@ public class FormaPagamentoController {
 
 	@GetMapping
 	public List<FormaPagamentoModel> lista() {
-		List<FormaPagamento> todasFormaPagamentos = formaPagamentoRepository.findAll();
+		List<FormaPagamento> todasFormasPagamentos = formaPagamentoRepository.findAll();
 
-		return formaPagamentoModelAssembler.toCollectionModel(todasFormaPagamentos);
+		return formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamentos);
 	}
 
 	@GetMapping("/{formaPagamentoId}")
