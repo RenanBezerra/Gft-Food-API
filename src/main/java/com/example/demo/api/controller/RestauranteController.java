@@ -20,6 +20,7 @@ import com.example.demo.api.assembler.RestauranteInputDisassembler;
 import com.example.demo.api.assembler.RestauranteModelAssembler;
 import com.example.demo.api.model.RestauranteModel;
 import com.example.demo.api.model.input.RestauranteInput;
+import com.example.demo.domain.exception.CidadeNaoEncontradaException;
 import com.example.demo.domain.exception.CozinhaNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.model.Restaurante;
@@ -62,7 +63,7 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restaurante));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
@@ -79,7 +80,7 @@ public class RestauranteController {
 
 			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restauranteAtual));
 
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}	
 	}
