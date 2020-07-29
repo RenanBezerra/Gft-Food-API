@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.api.assembler.RestauranteInputDisassembler;
 import com.example.demo.api.assembler.RestauranteModelAssembler;
+import com.example.demo.api.disassembler.RestauranteInputDisassembler;
 import com.example.demo.api.model.RestauranteModel;
 import com.example.demo.api.model.input.RestauranteInput;
 import com.example.demo.domain.exception.CidadeNaoEncontradaException;

@@ -1,4 +1,4 @@
- package com.example.demo.api.assembler;
+ package com.example.demo.api.disassembler;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
