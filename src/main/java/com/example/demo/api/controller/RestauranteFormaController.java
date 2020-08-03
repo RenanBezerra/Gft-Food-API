@@ -18,7 +18,7 @@ import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{rstauranteId}/formas-pagamento")
+@RequestMapping(value = "/restaurantes/{restauranteId}/formas-pagamento")
 public class RestauranteFormaController {
 
 	@Autowired
