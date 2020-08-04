@@ -52,7 +52,7 @@ public class Restaurante {
 
 	@Embedded
 	private Endereco endereco;
-	
+
 	private Boolean ativo = Boolean.TRUE;
 
 	@CreationTimestamp
@@ -64,26 +64,36 @@ public class Restaurante {
 	private OffsetDateTime dataAtualizacao;
 
 	@ManyToMany
-	@JoinTable(name = "restaurante_forma_pagamento",
-	joinColumns = @JoinColumn(name = "restaurante_id"),
-	inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+	@JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
-	
+
+	private boolean aberto = Boolean.FALSE;
+
+	public void abrir() {
+		setAberto(true);
+	}
+
+	public void fechar() {
+		setAberto(false);
+	}
+
 	public void ativar() {
 		setAtivo(true);
 	}
+
 	public void inativar() {
 		setAtivo(false);
 	}
+
 	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().remove(formaPagamento); 
+		return getFormasPagamento().remove(formaPagamento);
 	}
+
 	public boolean adicionaFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().add(formaPagamento); 
+		return getFormasPagamento().add(formaPagamento);
 	}
-	
 
 }
