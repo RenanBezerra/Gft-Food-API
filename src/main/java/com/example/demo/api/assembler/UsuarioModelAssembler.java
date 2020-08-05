@@ -1,5 +1,6 @@
 package com.example.demo.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,17 +16,14 @@ public class UsuarioModelAssembler {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	public UsuarioModel toModel (Usuario usuario) {
+
+	public UsuarioModel toModel(Usuario usuario) {
 		return modelMapper.map(usuario, UsuarioModel.class);
-		
-		
+
 	}
-	
-	public List<UsuarioModel> toCollectionModel(List<Usuario> usuarios){
-		return usuarios.stream()
-				.map(usuario -> toModel(usuario))
-				.collect(Collectors.toList());
-		
+
+	public List<UsuarioModel> toCollectionModel(Collection<Usuario> usuarios) {
+		return usuarios.stream().map(usuario -> toModel(usuario)).collect(Collectors.toList());
+
 	}
 }

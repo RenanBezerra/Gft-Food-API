@@ -9,6 +9,7 @@ import com.example.demo.domain.model.Cidade;
 import com.example.demo.domain.model.Cozinha;
 import com.example.demo.domain.model.FormaPagamento;
 import com.example.demo.domain.model.Restaurante;
+import com.example.demo.domain.model.Usuario;
 import com.example.demo.domain.repository.RestauranteRepository;
 
 @Service
@@ -25,6 +26,9 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamentoService;
+
+	@Autowired
+	private CadastroUsuarioService cadastroUsuarioService;
 
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
@@ -88,5 +92,22 @@ public class CadastroRestauranteService {
 		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 
 		restauranteAtual.fechar();
+	}
+
+	@Transactional
+	public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
+
+		restaurante.removerResponsavel(usuario);
+
+	}
+
+	@Transactional
+	public void associarResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
+
+		restaurante.adicionarResponsavel(usuario);
 	}
 }
