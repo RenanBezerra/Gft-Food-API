@@ -39,7 +39,7 @@ public class CadastroFormaPagamentoService {
 
 	}
 
-	public FormaPagamento buscaOuFalhar(Long formaPagamentoId) {
+	public FormaPagamento buscarOuFalhar(Long formaPagamentoId) {
 		return formaPagamentoRepository.findById(formaPagamentoId)
 				.orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
 	}
