@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.example.demo.domain.exception.NegocioException;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -71,6 +73,31 @@ public class Pedido {
 
 		this.valorTotal = this.subtotal.add(this.taxaFrete);
 
+	}
+	
+	public void confirmar() {
+		setStatus(StatusPedido.CONFIRMADO);
+		setDataConfirmacao(OffsetDateTime.now());
+	}
+	
+	public void entregar() {
+		setStatus(StatusPedido.ENTREGUE);
+		setDataEntrega(OffsetDateTime.now());
+		
+	}
+	public void cancelar() {
+		setStatus(StatusPedido.CANCELADO);
+		setDataCancelamento(OffsetDateTime.now());
+	}
+	
+	private void setStatus(StatusPedido novoStatusPedido) {
+		if (getStatus().naoPodeAlterarPara(novoStatusPedido)) {
+			throw new NegocioException(
+					String.format("Status do pedido %d não pode ser alterado de %s para %s",
+							getId(), getStatus().getDescricao(),
+							novoStatusPedido.getDescricao()));
+		}
+		this.status = novoStatusPedido;
 	}
 
 
