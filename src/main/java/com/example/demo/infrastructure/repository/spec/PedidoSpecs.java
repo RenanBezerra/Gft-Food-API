@@ -1,5 +1,5 @@
+package com.example.demo.infrastructure.repository.spec;
 
-package com.algaworks.algafood.infrastructure.repository.spec;
 
 import java.util.ArrayList;
 

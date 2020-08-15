@@ -66,21 +66,17 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bohnman</groupId>
 			<artifactId>squiggly-filter-jackson</artifactId>
 			<version>${squiggly.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -97,3 +93,4 @@
 	</build>
 
 </project>
+
