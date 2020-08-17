@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +33,6 @@ import com.example.demo.domain.repository.filter.PedidoFilter;
 import com.example.demo.domain.service.EmissaoPedidoService;
 import com.example.demo.infrastructure.repository.spec.PedidoSpecs;
 
-
 @RestController
 @RequestMapping(value = "/pedidos")
 public class PedidoController {
@@ -48,13 +51,17 @@ public class PedidoController {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 
-
-	
 	@GetMapping
-	public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
-		List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 
-		return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
+		List<PedidoResumoModel> pedidosResumoModel = pedidoResumoModelAssembler
+				.toCollectionModel(pedidosPage.getContent());
+
+		Page<PedidoResumoModel> pedidosResumoModelPage = new PageImpl<>(pedidosResumoModel, pageable,
+				pedidosPage.getTotalElements());
+
+		return pedidosResumoModelPage;
 	}
 
 	@GetMapping("/{codigoPedido}")
