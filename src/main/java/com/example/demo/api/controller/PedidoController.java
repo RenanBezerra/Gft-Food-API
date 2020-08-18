@@ -24,6 +24,7 @@ import com.example.demo.api.disassembler.PedidoInputDisassembler;
 import com.example.demo.api.model.PedidoModel;
 import com.example.demo.api.model.PedidoResumoModel;
 import com.example.demo.api.model.input.PedidoInput;
+import com.example.demo.core.data.PageableTranslator;
 import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.model.Pedido;
@@ -32,6 +33,9 @@ import com.example.demo.domain.repository.PedidoRepository;
 import com.example.demo.domain.repository.filter.PedidoFilter;
 import com.example.demo.domain.service.EmissaoPedidoService;
 import com.example.demo.infrastructure.repository.spec.PedidoSpecs;
+import com.google.common.collect.ImmutableMap;
+
+import lombok.var;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -53,6 +57,7 @@ public class PedidoController {
 
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+		pageable = traduzirPageable(pageable);
 		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 
 		List<PedidoResumoModel> pedidosResumoModel = pedidoResumoModelAssembler
@@ -63,6 +68,7 @@ public class PedidoController {
 
 		return pedidosResumoModelPage;
 	}
+
 
 	@GetMapping("/{codigoPedido}")
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
@@ -88,5 +94,15 @@ public class PedidoController {
 		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
+	}
+	private Pageable traduzirPageable(Pageable apiPageable) {
+		
+		var mapeamento = ImmutableMap.of(
+				"codigo","codigo",
+				"restaurante.nome","restaurante.nome",
+				"nomeCliente","cliente.nome",
+				"valorTotal","valorTotal"
+				);
+		return PageableTranslator.translate(apiPageable, mapeamento);
 	}
 }
