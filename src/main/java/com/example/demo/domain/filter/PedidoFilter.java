@@ -1,4 +1,4 @@
-package com.example.demo.domain.repository.filter;
+package com.example.demo.domain.filter;
 
 import java.time.OffsetDateTime;
 

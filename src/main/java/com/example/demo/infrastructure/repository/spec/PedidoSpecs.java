@@ -6,8 +6,8 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.example.demo.domain.filter.PedidoFilter;
 import com.example.demo.domain.model.Pedido;
-import com.example.demo.domain.repository.filter.PedidoFilter;
 
 import lombok.var;
 
