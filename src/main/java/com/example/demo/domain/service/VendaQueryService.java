@@ -7,6 +7,6 @@ import com.example.demo.domain.model.dto.VendaDiaria;
 
 public interface VendaQueryService {
 	
-	List<VendaDiaria> consultarVendaDiarias(VendaDiariaFilter filtro);
+	List<VendaDiaria> consultarVendaDiarias(VendaDiariaFilter filtro,String timeOffset);
 
 }

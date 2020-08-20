@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,14 +26,18 @@ public class VendaQueryServiceImpl implements VendaQueryService {
 	private EntityManager manager;
 
 	@Override
-	public List<VendaDiaria> consultarVendaDiarias(VendaDiariaFilter filtro) {
+	public List<VendaDiaria> consultarVendaDiarias(VendaDiariaFilter filtro,String timeOffset) {
 		var builder = manager.getCriteriaBuilder();
 		var query = builder.createQuery(VendaDiaria.class);
 		var root = query.from(Pedido.class);
 		
 		var predicates = new ArrayList<Predicate>();
 		
-		var functionDateDataCriacao = builder.function("date", Date.class, root.get("dataCriacao"));
+		var functionConvertTzDataCriacao = builder.function(
+				"convert_tz", Date.class, root.get("dataCriacao"),
+				builder.literal("+00:00"), builder.literal(timeOffset));
+		
+		var functionDateDataCriacao = builder.function("date", Date.class,functionConvertTzDataCriacao);
 
 		var selection = builder.construct(VendaDiaria.class, functionDateDataCriacao, builder.count(root.get("id")),
 				builder.sum(root.get("valorTotal")));
