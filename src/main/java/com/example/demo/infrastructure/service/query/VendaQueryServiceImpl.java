@@ -1,4 +1,4 @@
-package com.example.demo.infrastructure.service;
+package com.example.demo.infrastructure.service.query;
 
 import java.util.ArrayList;
 import java.util.Date;
