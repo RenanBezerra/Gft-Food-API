@@ -2,10 +2,9 @@ package com.example.demo.domain.service;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.model.FotoProduto;
 import com.example.demo.domain.repository.ProdutoRepository;
@@ -24,10 +23,11 @@ public class CatalogoFotoProdutoService {
 		Optional<FotoProduto> fotoExistente = produtoRepository
 				.findFotoById(restauranteId, produtoId);
 		
-		if(fotoExistente.isPresent()) {
+		if (fotoExistente.isPresent()) {
 			produtoRepository.delete(fotoExistente.get());
 		}
 		
-		return produtoRepository.save(foto); 
+		return produtoRepository.save(foto);
 	}
+	
 }
