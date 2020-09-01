@@ -1,6 +1,6 @@
 package com.example.demo.infrastructure.service.storage;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,9 +45,22 @@ public class LocalFotoStorageService implements FotoStorageService {
 
 	private Path getArquivoPath(String nomeArquivo) {
 
-		Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo", nomeArquivo);
+		//Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo", nomeArquivo);
+		//Path arquivoFoto2 = diretorioFotos.resolve(Path.of(nomeArquivo));
+		Path arquivoFoto2 = diretorioFotos.resolve(nomeArquivo);
+		return arquivoFoto2;
+	}
 
-		return arquivoFoto;
+	@Override
+	public InputStream recuperar(String nomeArquivo) {
+
+		try {
+			Path arquivoPath = getArquivoPath(nomeArquivo);
+
+			return Files.newInputStream(arquivoPath);
+		} catch (Exception e) {
+			throw new StorageException("Não foi possivel recuperar arquivo.", e);
+		}
 	}
 
 }
