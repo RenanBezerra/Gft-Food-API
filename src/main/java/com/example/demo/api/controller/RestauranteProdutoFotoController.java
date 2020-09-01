@@ -1,5 +1,7 @@
 package com.example.demo.api.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,31 +25,31 @@ import com.example.demo.domain.service.CatalogoFotoProdutoService;
 public class RestauranteProdutoFotoController {
 
 	@Autowired
-	private CadastroProdutoService cadastroProdutoService;
+	private CadastroProdutoService cadastroProduto;
 	
 	@Autowired
-	private CatalogoFotoProdutoService catalogoFotoProdutoService;
+	private CatalogoFotoProdutoService catalogoFotoProduto;
 	
 	@Autowired
 	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 	
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) {
-
-	Produto produto = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
-	
-	MultipartFile arquivo = fotoProdutoInput.getArquivo();
-	
-	FotoProduto foto = new FotoProduto();
-	foto.setProduto(produto);
-	foto.setDescricao(fotoProdutoInput.getDescricao());
-	foto.setContentType(arquivo.getContentType());
-	foto.setTamanho(arquivo.getSize());
-	foto.setNomeArquivo(arquivo.getOriginalFilename());
-
-	FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto);
-	
-	return fotoProdutoModelAssembler.toModel(fotoSalva);
+	public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
+			@PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
+		Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
+		
+		MultipartFile arquivo = fotoProdutoInput.getArquivo();
+		
+		FotoProduto foto = new FotoProduto();
+		foto.setProduto(produto);
+		foto.setDescricao(fotoProdutoInput.getDescricao());
+		foto.setContentType(arquivo.getContentType());
+		foto.setTamanho(arquivo.getSize());
+		foto.setNomeArquivo(arquivo.getOriginalFilename());
+		
+		FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto, arquivo.getInputStream());
+		
+		return fotoProdutoModelAssembler.toModel(fotoSalva);
 	}
+	
 }

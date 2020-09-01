@@ -26,4 +26,5 @@ public @interface FileContentType {
 	Class<? extends Payload>[] payload() default { };
 	
 	String[] allowed();
+	
 }

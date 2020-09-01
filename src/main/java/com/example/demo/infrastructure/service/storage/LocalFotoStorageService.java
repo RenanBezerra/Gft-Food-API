@@ -15,19 +15,25 @@ public class LocalFotoStorageService implements FotoStorageService {
 
 	@Value("${gftFood.storage.local.diretorio-fotos}")
 	private Path diretorioFotos;
-
+	
+	
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
-		Path arquivoPath = getArquivoPath(novaFoto.getNomeArquivo());
-
 		try {
-			FileCopyUtils.copy(novaFoto.getInputStream(), Files.newOutputStream(arquivoPath));
+			Path arquivoPath = getArquivoPath(novaFoto.getNomeArquivo());
+			
+			FileCopyUtils.copy(novaFoto.getInputStream(), 
+					Files.newOutputStream(arquivoPath));
 		} catch (Exception e) {
-			throw new StorageException("Não foi possivel armazenar arquivo.", e);
+			throw new StorageException("Não foi possível armazenar arquivo.", e);
 		}
 	}
-
+	
 	private Path getArquivoPath(String nomeArquivo) {
-		return diretorioFotos.resolve(Paths.get(nomeArquivo));
+		
+		Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo", nomeArquivo);
+		
+		return arquivoFoto;
 	}
+
 }

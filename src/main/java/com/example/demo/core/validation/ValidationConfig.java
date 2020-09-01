@@ -13,7 +13,6 @@ public class ValidationConfig {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setValidationMessageSource(messageSource);
 		return bean;
-
 	}
-
+	
 }
