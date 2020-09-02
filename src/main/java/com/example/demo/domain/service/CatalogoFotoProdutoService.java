@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.exception.FotoProdutoNaoEncontradaException;
 import com.example.demo.domain.model.FotoProduto;
+import com.example.demo.domain.model.Produto;
 import com.example.demo.domain.repository.ProdutoRepository;
 import com.example.demo.domain.service.FotoStorageService.NovaFoto;
 
@@ -48,6 +50,11 @@ public class CatalogoFotoProdutoService {
 		fotoStorage.substituir(nomeArquivoExistente,novaFoto);
 		
 		return foto;
+	}
+	
+	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+		return produtoRepository.findFotoById(restauranteId,produtoId)
+				.orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
 	}
 	
 }
