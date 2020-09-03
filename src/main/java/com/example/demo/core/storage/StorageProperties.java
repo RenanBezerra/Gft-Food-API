@@ -2,8 +2,6 @@ package com.example.demo.core.storage;
 
 import java.nio.file.Path;
 
-import org.apache.tomcat.jni.Local;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.GMSignatureSpi.sm3WithSM2;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -22,20 +20,20 @@ public class StorageProperties {
 	@Getter
 	@Setter
 	public class Local {
-		
+
 		private Path diretorioFotos;
 	}
-	
+
 	@Getter
 	@Setter
-	public class S3{
-		
+	public class S3 {
+
 		private String idChaveAcesso;
 		private String chaveAcessoSecreta;
 		private String bucket;
 		private String regiao;
 		private String diretorioFotos;
-	
+
 	}
 
 }
