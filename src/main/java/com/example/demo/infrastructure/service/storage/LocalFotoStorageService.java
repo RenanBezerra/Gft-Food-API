@@ -5,18 +5,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
+import com.example.demo.core.storage.StorageProperties;
 import com.example.demo.domain.service.FotoStorageService;
 
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
+//
+//	@Value("${gftFood.storage.local.diretorio-fotos}")
+//	private Path diretorioFotos;
 
-	@Value("${gftFood.storage.local.diretorio-fotos}")
-	private Path diretorioFotos;
-
+	@Autowired
+	private StorageProperties storageProperties;
+	
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
 		try {
@@ -47,7 +52,9 @@ public class LocalFotoStorageService implements FotoStorageService {
 
 		//Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo", nomeArquivo);
 		//Path arquivoFoto2 = diretorioFotos.resolve(Path.of(nomeArquivo));
-		Path arquivoFoto2 = diretorioFotos.resolve(nomeArquivo);
+		//Path arquivoFoto2 = diretorioFotos.resolve(nomeArquivo);
+		Path arquivoFoto2 = storageProperties.getLocal().getDiretorioFotos().resolve(nomeArquivo);
+		
 		return arquivoFoto2;
 	}
 
