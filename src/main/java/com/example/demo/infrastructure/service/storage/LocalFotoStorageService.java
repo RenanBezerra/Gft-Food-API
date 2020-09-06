@@ -1,6 +1,5 @@
 package com.example.demo.infrastructure.service.storage;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +18,7 @@ public class LocalFotoStorageService implements FotoStorageService {
 
 	@Autowired
 	private StorageProperties storageProperties;
-	
+
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
 		try {
@@ -48,21 +47,25 @@ public class LocalFotoStorageService implements FotoStorageService {
 
 	private Path getArquivoPath(String nomeArquivo) {
 
-		//Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo", nomeArquivo);
-		//Path arquivoFoto2 = diretorioFotos.resolve(Path.of(nomeArquivo));
-		//Path arquivoFoto2 = diretorioFotos.resolve(nomeArquivo);
+		// Path arquivoFoto = Paths.get("C:\\Users\\rebg\\Desktop\\catalogo",
+		// nomeArquivo);
+		// Path arquivoFoto2 = diretorioFotos.resolve(Path.of(nomeArquivo));
+		// Path arquivoFoto2 = diretorioFotos.resolve(nomeArquivo);
 		Path arquivoFoto2 = storageProperties.getLocal().getDiretorioFotos().resolve(nomeArquivo);
-		
+
 		return arquivoFoto2;
 	}
 
 	@Override
-	public InputStream recuperar(String nomeArquivo) {
+	public FotoRecuperada recuperar(String nomeArquivo) {
 
 		try {
 			Path arquivoPath = getArquivoPath(nomeArquivo);
 
-			return Files.newInputStream(arquivoPath);
+			FotoRecuperada fotoRecuperada = FotoRecuperada.builder().inputStream(Files.newInputStream(arquivoPath))
+					.build();
+
+			return fotoRecuperada;
 		} catch (Exception e) {
 			throw new StorageException("Não foi possivel recuperar arquivo.", e);
 		}
