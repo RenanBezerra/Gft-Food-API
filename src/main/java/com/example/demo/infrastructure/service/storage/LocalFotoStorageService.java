@@ -10,7 +10,6 @@ import org.springframework.util.FileCopyUtils;
 import com.example.demo.core.storage.StorageProperties;
 import com.example.demo.domain.service.FotoStorageService;
 
-//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 //
 //	@Value("${gftFood.storage.local.diretorio-fotos}")
