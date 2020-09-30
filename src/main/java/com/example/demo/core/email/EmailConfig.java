@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.domain.service.EnvioEmailService;
+import com.example.demo.infrastructure.service.email.SandboxEnvioEmailService;
 import com.example.demo.infrastructure.service.email.SmtpEnvioEmailService;
 
 @Configuration
@@ -21,6 +22,9 @@ public class EmailConfig {
 			
 		case SMTP:
 			return new SmtpEnvioEmailService();
+			
+		case SANDBOX:
+			return new SandboxEnvioEmailService();
 		default:
 			return null;
 		}
