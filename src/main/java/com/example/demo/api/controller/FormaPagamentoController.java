@@ -50,7 +50,13 @@ public class FormaPagamentoController {
 		List<FormaPagamentoModel> formasPagamentoModel = formaPagamentoModelAssembler
 				.toCollectionModel(todasFormasPagamentos);
 
-		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS)).body(formasPagamentoModel);
+		return ResponseEntity.ok()
+				// .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				// .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
+				 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+				//.cacheControl(CacheControl.noCache())
+				//.cacheControl(CacheControl.noStore())
+				.body(formasPagamentoModel);
 	}
 
 	@GetMapping("/{formaPagamentoId}")
