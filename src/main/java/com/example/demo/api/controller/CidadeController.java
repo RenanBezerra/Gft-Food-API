@@ -26,6 +26,9 @@ import com.example.demo.domain.model.Cidade;
 import com.example.demo.domain.repository.CidadeRepository;
 import com.example.demo.domain.service.CadastroCidadeService;
 
+import io.swagger.annotations.Api;
+
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping(value = "/cidades")
 public class CidadeController {
