@@ -34,7 +34,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.example.demo.api")).paths(PathSelectors.any()).build()
 				.useDefaultResponseMessages(false).globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
-				.apiInfo(apiInfo()).tags(new Tag("Cidades", "Gerencia as cidades"));
+				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages()).apiInfo(apiInfo())
+				.tags(new Tag("Cidades", "Gerencia as cidades"));
 	}
 
 	private List<ResponseMessage> globalGetResponseMessages() {
@@ -44,6 +47,26 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						.message("Erro interno do servidor").build(),
 				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
 						.message("Recurso não possui representaçãp que poderia ser aceita pelo consumidor").build());
+	}
+
+	private List<ResponseMessage> globalPostPutResponseMessages() {
+		return Arrays.asList(
+				new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
+						.message("Requisiçãp invalida (erro cliente)").build(),
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno do servidor").build(),
+				new ResponseMessageBuilder().code(HttpStatus.NOT_ACCEPTABLE.value())
+						.message("Recurso não possui representação que poderia ser aceita pelo consumidor").build(),
+				new ResponseMessageBuilder().code(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+						.message("Requisição recusada porque o corpo está em um formato não suportado").build());
+	}
+
+	private List<ResponseMessage> globalDeleteResponseMessages() {
+		return Arrays.asList(
+				new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
+						.message("Requisição invalida (erro do cliente)").build(),
+				new ResponseMessageBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message("Erro interno no servidor").build());
 	}
 
 	private ApiInfo apiInfo() {
