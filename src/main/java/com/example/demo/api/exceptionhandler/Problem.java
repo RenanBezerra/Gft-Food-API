@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+@ApiModel("Problema")
 @JsonInclude(Include.NON_NULL)
 @Getter
 @Builder
