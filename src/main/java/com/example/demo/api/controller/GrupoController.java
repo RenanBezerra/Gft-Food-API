@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.assembler.GrupoModelAssembler;
+import com.example.demo.api.controller.openapi.GrupoControllerOpenApi;
 import com.example.demo.api.disassembler.GrupoInputDisassembler;
 import com.example.demo.api.model.GrupoModel;
 import com.example.demo.api.model.input.GrupoInput;
@@ -26,66 +27,62 @@ import com.example.demo.domain.service.CadastroGrupoService;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
 	@Autowired
 	private GrupoRepository grupoRepository;
-	
+
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
-	
+
 	@Autowired
 	private GrupoModelAssembler grupoModelAssembler;
-	
+
 	@Autowired
 	private GrupoInputDisassembler grupoInputDisassembler;
-	
+
 	@GetMapping
-	public List<GrupoModel> listar(){
+	public List<GrupoModel> listar() {
 		List<Grupo> todosGrupos = grupoRepository.findAll();
-		
+
 		return grupoModelAssembler.toCollectionModel(todosGrupos);
 	}
-	
+
 	@GetMapping("/{grupoId}")
 	public GrupoModel buscar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
-		
+
 		return grupoModelAssembler.toModel(grupo);
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public GrupoModel adicionar (@RequestBody @Valid GrupoInput grupoInput) {
+	public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
 		Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
-		
+
 		grupo = cadastroGrupoService.salvar(grupo);
-		
+
 		return grupoModelAssembler.toModel(grupo);
 	}
-	
+
 	@PutMapping("/{grupoId}")
-	public GrupoModel atualizar(@PathVariable Long grupoId,
-			@RequestBody @Valid GrupoInput grupoInput) {
-		
+	public GrupoModel atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
+
 		Grupo grupoAtual = cadastroGrupoService.buscarOuFalhar(grupoId);
-		
+
 		grupoInputDisassembler.copyToDomainObject(grupoInput, grupoAtual);
-		
+
 		grupoAtual = cadastroGrupoService.salvar(grupoAtual);
-		
+
 		return grupoModelAssembler.toModel(grupoAtual);
-		
+
 	}
-	
+
 	@DeleteMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover (@PathVariable Long grupoId) {
+	public void remover(@PathVariable Long grupoId) {
 		cadastroGrupoService.excluir(grupoId);
-		
+
 	}
-	
-	
-	
-	
+
 }
