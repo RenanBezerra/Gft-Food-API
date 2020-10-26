@@ -1,4 +1,4 @@
-package com.example.demo.core.openapi.model;
+package com.example.demo.api.openapi.model;
 
 import java.util.List;
 

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.assembler.GrupoModelAssembler;
-import com.example.demo.api.controller.openapi.GrupoControllerOpenApi;
 import com.example.demo.api.disassembler.GrupoInputDisassembler;
 import com.example.demo.api.model.GrupoModel;
 import com.example.demo.api.model.input.GrupoInput;
+import com.example.demo.api.openapi.controller.GrupoControllerOpenApi;
 import com.example.demo.domain.model.Grupo;
 import com.example.demo.domain.repository.GrupoRepository;
 import com.example.demo.domain.service.CadastroGrupoService;

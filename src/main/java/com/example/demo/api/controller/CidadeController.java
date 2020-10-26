@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.assembler.CidadeModelAssembler;
-import com.example.demo.api.controller.openapi.CidadeControllerOpenApi;
 import com.example.demo.api.disassembler.CidadeInputDisassembler;
 import com.example.demo.api.model.CidadeModel;
 import com.example.demo.api.model.input.CidadeInput;
+import com.example.demo.api.openapi.controller.CidadeControllerOpenApi;
 import com.example.demo.domain.exception.EstadoNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.model.Cidade;
