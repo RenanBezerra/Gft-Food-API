@@ -25,121 +25,146 @@
 	</properties>
 
 	<dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-    	<groupId>org.springframework.boot</groupId>
-    	<artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-    	<groupId>mysql</groupId>
-    	<artifactId>mysql-connector-java</artifactId>
-    	<scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>org.projectlombok</groupId>
-    	<artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-    	<groupId>org.flywaydb</groupId>
-    	<artifactId>flyway-core</artifactId>
-    </dependency>
-    <dependency>
-    	<groupId>org.apache.commons</groupId>
-    	<artifactId>commons-lang3</artifactId>
-    </dependency>
-    <dependency>
-    	<groupId>io.rest-assured</groupId>
-    	<artifactId>rest-assured</artifactId>
-    	<scope>test</scope>
-    </dependency>
-    
-	<dependency>
-		<groupId>org.modelmapper</groupId>
-		<artifactId>modelmapper</artifactId>
-		<version>${modelmapper.version}</version>
-	</dependency>
-	
-	<dependency>
-	    <groupId>com.github.bohnman</groupId>
-	    <artifactId>squiggly-filter-jackson</artifactId>
-	    <version>${squiggly.version}</version>
-	    <exclusions>
-	    	<exclusion>
-	    		<groupId>com.google.guava</groupId>
-	    		<artifactId>guava</artifactId>
-	    	</exclusion>
-	    </exclusions>
-	</dependency>
-	
-	<dependency>
-	  <groupId>net.sf.jasperreports</groupId>
-	  <artifactId>jasperreports</artifactId>
-	  <version>${jasperreports.version}</version>
-	</dependency>
-	
-	<dependency>
-	  <groupId>net.sf.jasperreports</groupId>
-	  <artifactId>jasperreports-functions</artifactId>
-	  <version>${jasperreports.version}</version>
-	</dependency>
-	
-	<dependency>
-	  <groupId>com.amazonaws</groupId>
-	  <artifactId>aws-java-sdk-s3</artifactId>
-	  <version>${aws-java-sdk-s3.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-mail</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-freemarker</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>io.springfox</groupId>
-		<artifactId>springfox-swagger2</artifactId>
-		<version>${spring-fox.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>io.springfox</groupId>
-		<artifactId>springfox-swagger-ui</artifactId>
-		<version>${spring-fox.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>io.springfox</groupId>
-		<artifactId>springfox-bean-validators</artifactId>
-		<version>${spring-fox.version}</version>
-	</dependency>
-  </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-      	<artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.bohnman</groupId>
+			<artifactId>squiggly-filter-jackson</artifactId>
+			<version>${squiggly.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws-java-sdk-s3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${spring-fox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${spring-fox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-bean-validators</artifactId>
+			<version>${spring-fox.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+
+
+			<plugin>
+
+				<groupId>org.apache.maven.plugins</groupId>
+
+				<artifactId>maven-compiler-plugin</artifactId>
+
+				<version>3.2</version>
+
+				<configuration>
+
+					<source>1.8</source>
+
+					<target>1.8</target>
+
+				</configuration>
+
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+	</build>
 
 </project>
