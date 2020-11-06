@@ -3,7 +3,7 @@ package com.example.demo.api.openapi.controller;
 import java.util.List;
 
 import com.example.demo.api.exceptionhandler.Problem;
-import com.example.demo.api.model.FormaPagamentoModel;
+import com.example.demo.api.model.UsuarioModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,22 +12,22 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "Restaurantes")
-public interface RestauranteFormaPagamentoControllerOpenApi {
+public interface RestauranteUsuarioResponsavelControllerOpenApi {
 
-	@ApiOperation("Lista as formas de pagamento associados a restaurante")
+	@ApiOperation("Lista os usuários responsaveis associados a restaurante")
 	@ApiResponses({ @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class) })
-	 List<FormaPagamentoModel> listar(
+	 List<UsuarioModel> listar(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 
-	@ApiOperation("Desassociação de restaurante com forma de pagamento")
-	@ApiResponses({ @ApiResponse(code = 204, message = "Descrição realizada com sucesso"),
-			@ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class) })
+	@ApiOperation("Desassociação de restaurante com usuário responsavel")
+	@ApiResponses({ @ApiResponse(code = 204, message = "Desassociação realizada com sucesso"),
+			@ApiResponse(code = 404, message = "Restaurante ou usuario não encontrado", response = Problem.class) })
 	 void desassociar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
-			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formaPagamentoId);
+			@ApiParam(value = "ID do usuário", example = "1", required = true) Long usuarioId);
 
-	@ApiOperation("Associação de restaurante com forma de pagamento")
+	@ApiOperation("Associação de restaurante com usuário responsavel")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Associação realizada com sucesso"),
-			@ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrada", response = Problem.class) })
+			@ApiResponse(code = 404, message = "Restaurante ou usuario não encontrado", response = Problem.class) })
 	 void associar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
-			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formaPagamentoId);
+			@ApiParam(value = "ID do usuário", example = "1", required = true) Long usuarioId);
 }
