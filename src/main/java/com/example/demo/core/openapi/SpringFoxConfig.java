@@ -68,6 +68,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						CozinhasModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, PedidoResumoModel.class), PedidosResumoModelOpenApi.class))
+				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), new Tag("Grupos", "Gerencia os grupos de usuarios"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
 						new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
