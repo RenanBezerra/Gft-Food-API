@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.function.ServerRequest.Headers;
 
+import com.example.demo.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.example.demo.domain.filter.VendaDiariaFilter;
 import com.example.demo.domain.model.dto.VendaDiaria;
 import com.example.demo.domain.service.VendaQueryService;
@@ -21,11 +21,11 @@ import lombok.var;
 
 @RestController
 @RequestMapping(path = "/estatisticas")
-public class EstatisticasController {
+public class EstatisticasController implements EstatisticasControllerOpenApi {
 
 	@Autowired
 	private VendaQueryService vendaQueryService;
-	
+
 	@Autowired
 	private VendaReportService VendaReportService;
 
@@ -38,17 +38,13 @@ public class EstatisticasController {
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> consultarVendaDiariasPdf(VendaDiariaFilter filtro,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
-		
-		 byte[] bytesPdf = VendaReportService.emitirVendasDiarias(filtro, timeOffset);
-		 
-		 var headers = new HttpHeaders();
-		 headers.add(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=vendas-diarias.pdf");
-		 
-		 
-		return ResponseEntity.ok()
-				.contentType(MediaType.APPLICATION_PDF)
-				.headers(headers)
-				.body(bytesPdf);
+
+		byte[] bytesPdf = VendaReportService.emitirVendasDiarias(filtro, timeOffset);
+
+		var headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=vendas-diarias.pdf");
+
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).headers(headers).body(bytesPdf);
 	}
 
 }
