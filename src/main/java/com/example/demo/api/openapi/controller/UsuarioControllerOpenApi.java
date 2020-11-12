@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Usuarios")
+@Api(tags = "Usuários")
 public interface UsuarioControllerOpenApi {
 
 	@ApiOperation("Lista os usuarios")

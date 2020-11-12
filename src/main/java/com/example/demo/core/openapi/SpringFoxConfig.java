@@ -102,6 +102,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						.responseModel(new ModelRef("Problema")).build());
 	}
 
+	
 	private List<ResponseMessage> globalDeleteResponseMessages() {
 		return Arrays.asList(new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
 				.message("Requisição invalida (erro do cliente)").responseModel(new ModelRef("Problema")).build(),

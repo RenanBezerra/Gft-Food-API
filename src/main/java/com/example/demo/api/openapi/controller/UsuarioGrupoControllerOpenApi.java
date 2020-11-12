@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api("Usuarios")
+@Api(tags = "Usuários")
 public interface UsuarioGrupoControllerOpenApi {
 
 	@ApiOperation("Lista os grupos associados a um usuario")
