@@ -1,4 +1,4 @@
-package com.example.demo.core.openapi;
+package com.example.demo.core.springfox;
 
 import java.io.File;
 import java.io.InputStream;
