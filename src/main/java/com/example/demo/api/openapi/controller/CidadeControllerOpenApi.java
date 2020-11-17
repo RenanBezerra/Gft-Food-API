@@ -1,6 +1,6 @@
 package com.example.demo.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.CidadeModel;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
 public interface CidadeControllerOpenApi {
 
 	@ApiOperation("Lista as cidades")
-	 List<CidadeModel> listar();
+	 CollectionModel<CidadeModel> listar();
 
 	@ApiOperation("Busca uma cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID da cidade inválido", response = Problem.class),
