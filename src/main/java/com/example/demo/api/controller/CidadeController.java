@@ -1,5 +1,7 @@
 package com.example.demo.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -61,16 +63,22 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
+		cidadeModel.getEstado().add(
+				WebMvcLinkBuilder.linkTo(methodOn(CidadeController.class).buscar(cidadeModel.getId())).withSelfRel());
+		// cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
 
 		// cidadeModel.add(new Link("http://localhost:8080/cidades/1"));
 
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
+		cidadeModel.getEstado()
+				.add(WebMvcLinkBuilder.linkTo(methodOn(EstadoController.class).listar()).withRel("cidades"));
+		// cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("cidades"));
 
 		// cidadeModel.add(new Link("http://localhost:8080/cidades", "cidades"));
 
-		cidadeModel.getEstado().add(
-				WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeModel.getEstado().getId()).withSelfRel());
+		cidadeModel.getEstado().add(WebMvcLinkBuilder
+				.linkTo(methodOn(EstadoController.class).buscar(cidadeModel.getEstado().getId())).withSelfRel());
+		// cidadeModel.getEstado().add(
+		// WebMvcLinkBuilder.linkTo(EstadoController.class).slash(cidadeModel.getEstado().getId()).withSelfRel());
 
 		// cidadeModel.getEstado().add(new Link("http://localhost:8080/estados/1"));
 
