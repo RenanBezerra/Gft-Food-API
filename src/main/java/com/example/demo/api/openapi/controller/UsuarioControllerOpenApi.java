@@ -1,6 +1,6 @@
 package com.example.demo.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.UsuarioModel;
@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface UsuarioControllerOpenApi {
 
 	@ApiOperation("Lista os usuarios")
-	List<UsuarioModel> listar();
+	CollectionModel<UsuarioModel> listar();
 
 	@ApiOperation("Busca um usúario por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID do usúario inválido", response = Problem.class),

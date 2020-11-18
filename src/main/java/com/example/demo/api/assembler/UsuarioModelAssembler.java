@@ -1,29 +1,46 @@
 package com.example.demo.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.api.controller.UsuarioController;
+import com.example.demo.api.controller.UsuarioGrupoController;
 import com.example.demo.api.model.UsuarioModel;
 import com.example.demo.domain.model.Usuario;
 
 @Component
-public class UsuarioModelAssembler {
+public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<Usuario, UsuarioModel> {
 
 	@Autowired
 	private ModelMapper modelMapper;
 
+	public UsuarioModelAssembler() {
+		super(UsuarioController.class, UsuarioModel.class);
+	}
+
 	public UsuarioModel toModel(Usuario usuario) {
-		return modelMapper.map(usuario, UsuarioModel.class);
 
+		UsuarioModel usuarioModel = createModelWithId(usuario.getId(), usuario);
+
+		modelMapper.map(usuario, usuarioModel);
+
+		usuarioModel.add(WebMvcLinkBuilder.linkTo(UsuarioController.class).withRel("usuarios"));
+
+		usuarioModel.add(WebMvcLinkBuilder.linkTo(methodOn(UsuarioGrupoController.class).listar(usuario.getId()))
+				.withRel("grupos-usuario"));
+
+		return usuarioModel;
 	}
 
-	public List<UsuarioModel> toCollectionModel(Collection<Usuario> usuarios) {
-		return usuarios.stream().map(usuario -> toModel(usuario)).collect(Collectors.toList());
-
+	@Override
+	public CollectionModel<UsuarioModel> toCollectionModel(Iterable<? extends Usuario> entities) {
+		return super.toCollectionModel(entities).add(WebMvcLinkBuilder.linkTo(UsuarioController.class).withSelfRel());
 	}
+
 }
