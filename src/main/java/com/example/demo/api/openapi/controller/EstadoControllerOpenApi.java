@@ -1,6 +1,6 @@
 package com.example.demo.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.EstadoModel;
@@ -15,8 +15,8 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Estados")
 public interface EstadoControllerOpenApi {
 
-	@ApiOperation("Listar os estados")
-	public List<EstadoModel> listar();
+	@ApiOperation("Lista os estados")
+	public CollectionModel<EstadoModel> listar();
 
 	@ApiOperation("Busca um estado por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID do estado inválido", response = Problem.class),
