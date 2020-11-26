@@ -5,8 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.api.assembler.RestauranteApenasNomeModelAssembler;
+import com.example.demo.api.assembler.RestauranteBasicoModelAssembler;
 import com.example.demo.api.assembler.RestauranteModelAssembler;
 import com.example.demo.api.disassembler.RestauranteInputDisassembler;
+import com.example.demo.api.model.RestauranteApenasNomeModel;
+import com.example.demo.api.model.RestauranteBasicoModel;
 import com.example.demo.api.model.RestauranteModel;
 import com.example.demo.api.model.input.RestauranteInput;
-import com.example.demo.api.model.view.RestauranteView;
 import com.example.demo.api.openapi.controller.RestauranteControllerOpenApi;
 import com.example.demo.domain.exception.CidadeNaoEncontradaException;
 import com.example.demo.domain.exception.CozinhaNaoEncontradaException;
@@ -30,7 +35,6 @@ import com.example.demo.domain.exception.RestauranteNaoEncontradoException;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.repository.RestauranteRepository;
 import com.example.demo.domain.service.CadastroRestauranteService;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping(path = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,18 +51,24 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@Autowired
 	private RestauranteInputDisassembler restauranteInputDisassembler;
+	
+	@Autowired
+	private RestauranteBasicoModelAssembler restauranteBasicoModelAssembler;
 
+	@Autowired
+	private RestauranteApenasNomeModelAssembler restauranteApenasNomeModelAssembler;
+	
 	@Override
 	@GetMapping
-	public List<RestauranteModel> listar() {
-		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+	public CollectionModel<RestauranteBasicoModel> listar() {
+		return restauranteBasicoModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
 
 	@Override
-	@JsonView(RestauranteView.ApenasNome.class)
+	//@JsonView(RestauranteView.ApenasNome.class)
 	@GetMapping(params = "projecao=apenas-nome")
-	public List<RestauranteModel> listarApenasNomes() {
-		return listar();
+	public CollectionModel<RestauranteApenasNomeModel> listarApenasNomes() {
+		return restauranteApenasNomeModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
 
 	@Override
@@ -104,15 +114,17 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@Override
 	@PutMapping("/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativar(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.ativar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	@DeleteMapping("/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void inativar(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.inativar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@Override
@@ -144,15 +156,17 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@Override
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void abrir(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.abrir(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void fechar(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.fechar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 }

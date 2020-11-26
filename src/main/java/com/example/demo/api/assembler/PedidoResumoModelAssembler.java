@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.api.AlgaLinks;
+import com.example.demo.api.GftLinks;
 import com.example.demo.api.controller.PedidoController;
 import com.example.demo.api.model.PedidoResumoModel;
 import com.example.demo.domain.model.Pedido;
@@ -17,7 +17,7 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private AlgaLinks algaLinks;
+	private GftLinks gftLinks;
 
 	public PedidoResumoModelAssembler() {
 		super(PedidoController.class, PedidoResumoModel.class);
@@ -28,11 +28,11 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 		PedidoResumoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(algaLinks.linkToPedidos());
+		pedidoModel.add(gftLinks.linkToPedidos());
 
-		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
+		pedidoModel.getRestaurante().add(gftLinks.linkToRestaurante(pedido.getRestaurante().getId()));
 
-		pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
+		pedidoModel.getCliente().add(gftLinks.linkToUsuario(pedido.getCliente().getId()));
 
 		return pedidoModel;
 

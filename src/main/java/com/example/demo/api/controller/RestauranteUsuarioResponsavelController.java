@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.api.AlgaLinks;
+import com.example.demo.api.GftLinks;
 import com.example.demo.api.assembler.UsuarioModelAssembler;
 import com.example.demo.api.model.UsuarioModel;
 import com.example.demo.api.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
@@ -30,7 +30,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	private UsuarioModelAssembler usuarioModelAssembler;
 
 	@Autowired
-	private AlgaLinks algaLinks;
+	private GftLinks algaLinks;
 
 	@Override
 	@GetMapping
