@@ -102,6 +102,16 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
 		registerEvent(new PedidoCanceladoEvent(this));
 	}
 	
+	public boolean podeSerConfirmado() {
+		return getStatus().podeAlterarPara(StatusPedido.CONFIRMADO);
+	}
+	public boolean podeSerEntregue() {
+		return getStatus().podeAlterarPara(StatusPedido.ENTREGUE);
+	}
+	public boolean podeSerCancelado() {
+		return getStatus().podeAlterarPara(StatusPedido.CANCELADO);
+	}
+	
 	private void setStatus(StatusPedido novoStatusPedido) {
 		if (getStatus().naoPodeAlterarPara(novoStatusPedido)) {
 			throw new NegocioException(
@@ -116,5 +126,7 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
 	private void gerarCodigo() {
 		setCodigo(UUID.randomUUID().toString());
 	}
+
+	
 
 }
