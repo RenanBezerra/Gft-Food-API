@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Relation(collectionRelation = "restaurantes")
 @Getter
 @Setter
@@ -30,6 +31,6 @@ public class RestauranteModel extends RepresentationModel<RestauranteModel> {
 	private CozinhaModel cozinha;
 
 	private Boolean ativo;
-	private EnderecoModel endereco;
 	private Boolean aberto;
+	private EnderecoModel endereco;
 }
