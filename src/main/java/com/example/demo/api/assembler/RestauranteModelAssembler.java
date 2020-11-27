@@ -41,6 +41,19 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 
 		restauranteModel.add(gftLinks.linkToResponsaveisRestaurante(restaurante.getId(), "responsaveis"));
 
+		if (restaurante.ativacaoPermitida()) {
+			restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "ativar"));
+		}
+		if (restaurante.inativacaoPermitida()) {
+			restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "inativar"));
+		}
+		if (restaurante.aberturaPermitida()) {
+			restauranteModel.add(gftLinks.linkToRestauranteAbertura(restaurante.getId(), "abrir"));
+		}
+		if (restaurante.fechamentoPermitido()) {
+			restauranteModel.add(gftLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
+		}
+
 		return restauranteModel;
 	}
 
