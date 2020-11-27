@@ -1,6 +1,6 @@
 package com.example.demo.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.FormaPagamentoModel;
@@ -16,7 +16,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 
 	@ApiOperation("Lista as formas de pagamento associados a restaurante")
 	@ApiResponses({ @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class) })
-	 List<FormaPagamentoModel> listar(
+	 CollectionModel<FormaPagamentoModel> listar(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 
 	@ApiOperation("Desassociação de restaurante com forma de pagamento")
