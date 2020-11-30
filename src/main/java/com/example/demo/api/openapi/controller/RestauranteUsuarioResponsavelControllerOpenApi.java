@@ -1,6 +1,7 @@
 package com.example.demo.api.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.UsuarioModel;
@@ -22,12 +23,12 @@ public interface RestauranteUsuarioResponsavelControllerOpenApi {
 	@ApiOperation("Desassociação de restaurante com usuário responsavel")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Desassociação realizada com sucesso"),
 			@ApiResponse(code = 404, message = "Restaurante ou usuario não encontrado", response = Problem.class) })
-	void desassociar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
+	ResponseEntity<Void> desassociar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
 			@ApiParam(value = "ID do usuário", example = "1", required = true) Long usuarioId);
 
 	@ApiOperation("Associação de restaurante com usuário responsavel")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Associação realizada com sucesso"),
 			@ApiResponse(code = 404, message = "Restaurante ou usuario não encontrado", response = Problem.class) })
-	void associar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
+	ResponseEntity<Void> associar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
 			@ApiParam(value = "ID do usuário", example = "1", required = true) Long usuarioId);
 }

@@ -219,4 +219,12 @@ public class GftLinks {
 	public Link linkToFormasPagamento() {
 		return linkToFormasPagamento(IanaLinkRelations.SELF.value());
 	}
+	
+	public Link linkToRestauranteResponsavelDesassociacao(Long restauranteId, Long usuarioId, String rel) {
+		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).desassociar(restauranteId, usuarioId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteResponsavelAssociacao(Long restauranteId, String rel) {
+		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).associar(restauranteId, null)).withRel(rel);
+	}
 }
