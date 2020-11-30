@@ -174,8 +174,11 @@ public class GftLinks {
 	}
 
 	public Link linkToRestauranteFormaPagamentoDesassociacao(Long restauranteId, Long formaPagamentoId, String rel) {
-
 		return linkTo(methodOn(RestauranteFormaPagamentoController.class).desassociar(restauranteId, formaPagamentoId))
+				.withRel(rel);
+
+	}public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
+		return linkTo(methodOn(RestauranteFormaPagamentoController.class).associar(restauranteId, null))
 				.withRel(rel);
 
 	}
