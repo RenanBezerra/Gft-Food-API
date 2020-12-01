@@ -19,6 +19,7 @@ import com.example.demo.api.controller.FormaPagamentoController;
 import com.example.demo.api.controller.GrupoController;
 import com.example.demo.api.controller.GrupoPermissaoController;
 import com.example.demo.api.controller.PedidoController;
+import com.example.demo.api.controller.PermissaoController;
 import com.example.demo.api.controller.RestauranteController;
 import com.example.demo.api.controller.RestauranteFormaPagamentoController;
 import com.example.demo.api.controller.RestauranteProdutoController;
@@ -258,5 +259,21 @@ public class GftLinks {
 		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
 	}
 	
+	public Link linkToPermissoes(String rel) {
+		return linkTo(PermissaoController.class).withRel(rel);
+	}
 	
+	public Link linkToPermissoes() {
+		return linkToPermissoes(IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToGrupoPermissoes(Long grupoId) {
+		return linkToGrupoPermissoes(grupoId,IanaLinkRelations.SELF.value());
+	}
+	public Link linkToGrupoPermissaoAssociacao(Long grupoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).associar(grupoId, null)).withRel(rel);
+	}
+	public Link linkToGrupoPermissaoDesassociacao(Long grupoId, Long permissaoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).desassociar(grupoId, permissaoId)).withRel(rel);
+	}
 }
