@@ -31,6 +31,8 @@ public class ProdutoModelAssembler extends RepresentationModelAssemblerSupport<P
 
 		produtoModel.add(gftLinks.linkToProdutos(produto.getRestaurante().getId(), "produtos"));
 
+		produtoModel.add(gftLinks.linkToFotoProduto(produto.getRestaurante().getId(), produto.getId(), "foto"));
+
 		return produtoModel;
 	}
 

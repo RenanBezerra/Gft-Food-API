@@ -20,6 +20,7 @@ import com.example.demo.api.controller.PedidoController;
 import com.example.demo.api.controller.RestauranteController;
 import com.example.demo.api.controller.RestauranteFormaPagamentoController;
 import com.example.demo.api.controller.RestauranteProdutoController;
+import com.example.demo.api.controller.RestauranteProdutoFotoController;
 import com.example.demo.api.controller.RestauranteUsuarioResponsavelController;
 import com.example.demo.api.controller.UsuarioController;
 import com.example.demo.api.controller.UsuarioGrupoController;
@@ -235,4 +236,13 @@ public class GftLinks {
 	public Link linkToProdutos(Long restauranteId) {
 		return linkToProdutos(restauranteId, IanaLinkRelations.SELF.value());
 	}
+	
+	public Link linkToFotoProduto(Long restauranteId, Long produtoId, String rel) {
+		return linkTo(methodOn(RestauranteProdutoFotoController.class).buscar(restauranteId, produtoId)).withRel(rel);
+	}
+	
+	public Link linkToFotoProduto(Long restauranteId, Long produtoId) {
+		return linkToFotoProduto(restauranteId, produtoId, IanaLinkRelations.SELF.value());
+	}
+	
 }
