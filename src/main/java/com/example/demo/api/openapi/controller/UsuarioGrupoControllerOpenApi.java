@@ -1,6 +1,6 @@
 package com.example.demo.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.example.demo.api.exceptionhandler.Problem;
 import com.example.demo.api.model.GrupoModel;
@@ -16,7 +16,7 @@ public interface UsuarioGrupoControllerOpenApi {
 
 	@ApiOperation("Lista os grupos associados a um usuario")
 	@ApiResponses({ @ApiResponse(code = 404, message = "Usuario não encontrado", response = Problem.class) })
-	List<GrupoModel> listar(@ApiParam(value = "ID do usuário ", example = "1", required = true) Long usuarioId);
+	CollectionModel<GrupoModel> listar(@ApiParam(value = "ID do usuário ", example = "1", required = true) Long usuarioId);
 
 	@ApiOperation("Desassociação de grupo com usuario")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Desassociação realizada com sucesso"),

@@ -16,6 +16,8 @@ import com.example.demo.api.controller.CozinhaController;
 import com.example.demo.api.controller.EstadoController;
 import com.example.demo.api.controller.FluxoPedidoController;
 import com.example.demo.api.controller.FormaPagamentoController;
+import com.example.demo.api.controller.GrupoController;
+import com.example.demo.api.controller.GrupoPermissaoController;
 import com.example.demo.api.controller.PedidoController;
 import com.example.demo.api.controller.RestauranteController;
 import com.example.demo.api.controller.RestauranteFormaPagamentoController;
@@ -244,5 +246,17 @@ public class GftLinks {
 	public Link linkToFotoProduto(Long restauranteId, Long produtoId) {
 		return linkToFotoProduto(restauranteId, produtoId, IanaLinkRelations.SELF.value());
 	}
+	
+	public Link linkToGrupos(String rel) {
+		return linkTo(GrupoController.class).withRel(rel);
+	}
+	
+	public Link linkToGrupos() {
+		return linkToGrupos(IanaLinkRelations.SELF.value());
+	}
+	public  Link linkToGrupoPermissoes(Long grupoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
+	}
+	
 	
 }
