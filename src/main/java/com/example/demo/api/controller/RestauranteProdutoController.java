@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.api.GftLinks;
 import com.example.demo.api.assembler.ProdutoModelAssembler;
 import com.example.demo.api.disassembler.ProdutoInputDisassembler;
 import com.example.demo.api.model.ProdutoModel;
@@ -47,10 +49,13 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private ProdutoInputDisassembler produtoInputDisassembler;
 
+	@Autowired
+	private GftLinks gftLinks;
+
 	@Override
 	@GetMapping
-	public List<ProdutoModel> listar(@PathVariable Long restauranteId,
-			@RequestParam(required = false) boolean incluirInativos) {
+	public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
+			@RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
 		List<Produto> todosProdutos = null;
@@ -61,7 +66,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 			todosProdutos = produtoRepository.findAtivosByRestaurante(restaurante);
 		}
 
-		return produtoModelAssembler.toCollectionModel(todosProdutos);
+		return produtoModelAssembler.toCollectionModel(todosProdutos).add(gftLinks.linkToProdutos(restauranteId));
 	}
 
 	@Override

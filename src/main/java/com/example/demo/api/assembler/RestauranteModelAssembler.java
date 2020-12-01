@@ -32,8 +32,6 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 
 		restauranteModel.add(gftLinks.linkToRestaurantes("restaurantes"));
 
-		
-
 		if (restaurante.ativacaoPermitida()) {
 			restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "ativar"));
 		}
@@ -46,16 +44,22 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 		if (restaurante.fechamentoPermitido()) {
 			restauranteModel.add(gftLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
 		}
-		
+
+		restauranteModel.add(gftLinks.linkToProdutos(restaurante.getId(), "produtos"));
+
 		restauranteModel.getCozinha().add(gftLinks.linkToCozinha(restaurante.getCozinha().getId()));
 
-		restauranteModel.getEndereco().getCidade()
-				.add(gftLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+		if (restauranteModel.getEndereco() != null && restauranteModel.getEndereco().getCidade() != null) {
+
+			restauranteModel.getEndereco().getCidade()
+					.add(gftLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+
+		}
 
 		restauranteModel.add(gftLinks.linkToRestauranteFormasPagamento(restaurante.getId(), "formas-pagamento"));
 
 		restauranteModel.add(gftLinks.linkToResponsaveisRestaurante(restaurante.getId(), "responsaveis"));
-		
+
 		return restauranteModel;
 	}
 
