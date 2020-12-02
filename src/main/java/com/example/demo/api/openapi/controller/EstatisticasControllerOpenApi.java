@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.api.controller.EstatisticasController.EstatisticasModel;
 import com.example.demo.domain.filter.VendaDiariaFilter;
 import com.example.demo.domain.model.dto.VendaDiaria;
 
@@ -15,6 +16,9 @@ import io.swagger.annotations.ApiParam;
 
 @Api(tags = "Estatisticas")
 public interface EstatisticasControllerOpenApi {
+	
+	@ApiOperation(value = "Estatisticas", hidden = true)
+	EstatisticasModel estatisticas();
 
 	@ApiOperation("Consultas estatisticas de vendas diárias")
 	@ApiImplicitParams({
@@ -30,5 +34,7 @@ public interface EstatisticasControllerOpenApi {
 	ResponseEntity<byte[]> consultarVendaDiariasPdf(VendaDiariaFilter filtro,
 
 			String timeOffset);
+	
+	
 
 }

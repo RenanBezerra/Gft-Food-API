@@ -31,6 +31,7 @@ public class RootEntryPointController {
 		rootEntryPointModel.add(gftLink.linkToFormasPagamento("formas-pagamento"));
 		rootEntryPointModel.add(gftLink.linkToEstados("estados"));
 		rootEntryPointModel.add(gftLink.linkToCidades("cidades"));
+		rootEntryPointModel.add(gftLink.linkToEstatisticas("estatisticas"));
 
 		return rootEntryPointModel;
 	}

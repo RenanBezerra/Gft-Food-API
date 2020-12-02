@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.controller.CidadeController;
 import com.example.demo.api.controller.CozinhaController;
 import com.example.demo.api.controller.EstadoController;
+import com.example.demo.api.controller.EstatisticasController;
 import com.example.demo.api.controller.FluxoPedidoController;
 import com.example.demo.api.controller.FormaPagamentoController;
 import com.example.demo.api.controller.GrupoController;
@@ -181,9 +182,10 @@ public class GftLinks {
 		return linkTo(methodOn(RestauranteFormaPagamentoController.class).desassociar(restauranteId, formaPagamentoId))
 				.withRel(rel);
 
-	}public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
-		return linkTo(methodOn(RestauranteFormaPagamentoController.class).associar(restauranteId, null))
-				.withRel(rel);
+	}
+
+	public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
+		return linkTo(methodOn(RestauranteFormaPagamentoController.class).associar(restauranteId, null)).withRel(rel);
 
 	}
 
@@ -223,66 +225,90 @@ public class GftLinks {
 	public Link linkToFormasPagamento() {
 		return linkToFormasPagamento(IanaLinkRelations.SELF.value());
 	}
-	
+
 	public Link linkToRestauranteResponsavelDesassociacao(Long restauranteId, Long usuarioId, String rel) {
-		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).desassociar(restauranteId, usuarioId)).withRel(rel);
+		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).desassociar(restauranteId, usuarioId))
+				.withRel(rel);
 	}
-	
+
 	public Link linkToRestauranteResponsavelAssociacao(Long restauranteId, String rel) {
-		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).associar(restauranteId, null)).withRel(rel);
+		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).associar(restauranteId, null))
+				.withRel(rel);
 	}
-	
+
 	public Link linkToProdutos(Long restauranteId, String rel) {
 		return linkTo(methodOn(RestauranteProdutoController.class).listar(restauranteId, null)).withRel(rel);
 	}
-	
+
 	public Link linkToProdutos(Long restauranteId) {
 		return linkToProdutos(restauranteId, IanaLinkRelations.SELF.value());
 	}
-	
+
 	public Link linkToFotoProduto(Long restauranteId, Long produtoId, String rel) {
 		return linkTo(methodOn(RestauranteProdutoFotoController.class).buscar(restauranteId, produtoId)).withRel(rel);
 	}
-	
+
 	public Link linkToFotoProduto(Long restauranteId, Long produtoId) {
 		return linkToFotoProduto(restauranteId, produtoId, IanaLinkRelations.SELF.value());
 	}
-	
+
 	public Link linkToGrupos(String rel) {
 		return linkTo(GrupoController.class).withRel(rel);
 	}
-	
+
 	public Link linkToGrupos() {
 		return linkToGrupos(IanaLinkRelations.SELF.value());
 	}
-	public  Link linkToGrupoPermissoes(Long grupoId, String rel) {
+
+	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
 	}
-	
+
 	public Link linkToPermissoes(String rel) {
 		return linkTo(PermissaoController.class).withRel(rel);
 	}
-	
+
 	public Link linkToPermissoes() {
 		return linkToPermissoes(IanaLinkRelations.SELF.value());
 	}
-	
+
 	public Link linkToGrupoPermissoes(Long grupoId) {
-		return linkToGrupoPermissoes(grupoId,IanaLinkRelations.SELF.value());
+		return linkToGrupoPermissoes(grupoId, IanaLinkRelations.SELF.value());
 	}
+
 	public Link linkToGrupoPermissaoAssociacao(Long grupoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).associar(grupoId, null)).withRel(rel);
 	}
+
 	public Link linkToGrupoPermissaoDesassociacao(Long grupoId, Long permissaoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).desassociar(grupoId, permissaoId)).withRel(rel);
 	}
+
 	public Link linkToUsuarioGrupoAssociacao(Long usuarioId, String rel) {
 		return linkTo(methodOn(UsuarioGrupoController.class).associar(usuarioId, null)).withRel(rel);
 	}
-	
+
 	public Link linkToUsuarioGrupoDesassociacao(Long usuarioId, Long grupoId, String rel) {
 		return linkTo(methodOn(UsuarioGrupoController.class).desassociar(usuarioId, grupoId)).withRel(rel);
 	}
-	
-	
+
+	public Link linkToEstatisticas(String rel) {
+		return linkTo(EstatisticasController.class).withRel(rel);
+	}
+
+	public Link linkToEstatisticasVendasDiarias(String rel) {
+
+		TemplateVariables filtroVariables = new TemplateVariables(
+				new TemplateVariable("restauranteId", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM),
+				new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
+
+		String pedidosUrl = linkTo(methodOn(EstatisticasController.class).consultarVendaDiarias(null, null)).toUri()
+				.toString();
+
+		return new Link(UriTemplate.of(pedidosUrl, filtroVariables), rel);
+
+	}
+
 }
