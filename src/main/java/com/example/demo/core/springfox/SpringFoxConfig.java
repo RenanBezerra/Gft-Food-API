@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +23,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.api.exceptionhandler.Problem;
+import com.example.demo.api.model.CidadeModel;
 import com.example.demo.api.model.CozinhaModel;
 import com.example.demo.api.model.PedidoResumoModel;
+import com.example.demo.api.openapi.model.CidadesModelOpenApi;
 import com.example.demo.api.openapi.model.CozinhasModelOpenApi;
 import com.example.demo.api.openapi.model.LinksModelOpenApi;
 import com.example.demo.api.openapi.model.PageableModelOpenApi;
@@ -71,6 +74,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						CozinhasModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, PedidoResumoModel.class), PedidosResumoModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, CidadeModel.class),
+						CidadesModelOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), new Tag("Grupos", "Gerencia os grupos de usuarios"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
