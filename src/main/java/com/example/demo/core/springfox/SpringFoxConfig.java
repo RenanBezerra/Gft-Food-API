@@ -31,6 +31,8 @@ import com.example.demo.api.model.GrupoModel;
 import com.example.demo.api.model.PedidoResumoModel;
 import com.example.demo.api.model.PermissaoModel;
 import com.example.demo.api.model.ProdutoModel;
+import com.example.demo.api.model.RestauranteBasicoModel;
+import com.example.demo.api.model.UsuarioModel;
 import com.example.demo.api.openapi.model.CidadesModelOpenApi;
 import com.example.demo.api.openapi.model.CozinhasModelOpenApi;
 import com.example.demo.api.openapi.model.EstadosModelOpenApi;
@@ -40,6 +42,9 @@ import com.example.demo.api.openapi.model.LinksModelOpenApi;
 import com.example.demo.api.openapi.model.PageableModelOpenApi;
 import com.example.demo.api.openapi.model.PedidosResumoModelOpenApi;
 import com.example.demo.api.openapi.model.PermissoesModelOpenApi;
+import com.example.demo.api.openapi.model.ProdutosModelOpenApi;
+import com.example.demo.api.openapi.model.RestaurantesBasicoModelOpenApi;
+import com.example.demo.api.openapi.model.UsuariosModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import lombok.var;
@@ -97,6 +102,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
 								PermissoesModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, ProdutoModel.class), ProdutosModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, RestauranteBasicoModel.class),RestaurantesBasicoModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, UsuarioModel.class), UsuariosModelOpenApi.class))
 				.apiInfo(apiInfo()).tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Grupos", "Gerencia os grupos de usuarios"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),

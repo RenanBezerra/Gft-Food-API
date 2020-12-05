@@ -10,7 +10,6 @@ import com.example.demo.api.model.RestauranteApenasNomeModel;
 import com.example.demo.api.model.RestauranteBasicoModel;
 import com.example.demo.api.model.RestauranteModel;
 import com.example.demo.api.model.input.RestauranteInput;
-import com.example.demo.api.openapi.model.RestauranteBasicoModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,7 +22,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Restaurantes")
 public interface RestauranteControllerOpenApi {
 
-	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
+	@ApiOperation(value = "Lista restaurantes")
 	@ApiImplicitParams({
 			@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "apenas-nome", name = "projeção", paramType = "query", type = "string") })
 	// @JsonView(RestauranteView.Resumo.class)
