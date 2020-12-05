@@ -30,6 +30,7 @@ import com.example.demo.api.model.FormaPagamentoModel;
 import com.example.demo.api.model.GrupoModel;
 import com.example.demo.api.model.PedidoResumoModel;
 import com.example.demo.api.model.PermissaoModel;
+import com.example.demo.api.model.ProdutoModel;
 import com.example.demo.api.openapi.model.CidadesModelOpenApi;
 import com.example.demo.api.openapi.model.CozinhasModelOpenApi;
 import com.example.demo.api.openapi.model.EstadosModelOpenApi;
@@ -95,6 +96,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.alternateTypeRules(
 						AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
 								PermissoesModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, ProdutoModel.class), ProdutosModelOpenApi.class))
 				.apiInfo(apiInfo()).tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Grupos", "Gerencia os grupos de usuarios"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
