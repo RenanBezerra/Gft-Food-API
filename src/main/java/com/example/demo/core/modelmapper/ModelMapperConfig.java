@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.api.model.EnderecoModel;
-import com.example.demo.api.model.input.ItemPedidoInput;
+import com.example.demo.api.v1.model.EnderecoModel;
+import com.example.demo.api.v1.model.input.ItemPedidoInput;
 import com.example.demo.domain.model.Endereco;
 import com.example.demo.domain.model.ItemPedido;
 
