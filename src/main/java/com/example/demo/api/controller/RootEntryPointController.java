@@ -23,6 +23,7 @@ public class RootEntryPointController {
 		var rootEntryPointModel = new RootEntryPointModel();
 
 		rootEntryPointModel.add(gftLink.linkToCozinhas("cozinhas"));
+		rootEntryPointModel.add(gftLink.linkToCozinhas("gastronomias"));
 		rootEntryPointModel.add(gftLink.linkToPedidos("pedidos"));
 		rootEntryPointModel.add(gftLink.linkToRestaurantes("restaurantes"));
 		rootEntryPointModel.add(gftLink.linkToGrupos("grupos"));
