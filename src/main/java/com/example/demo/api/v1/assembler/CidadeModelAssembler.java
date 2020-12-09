@@ -43,7 +43,7 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 		return super.toCollectionModel(entities).add(gftLinks.linkToCidades());
 	}
 
-//	public List<CidadeModel> toCollectionModel(List<Cidade> cidades) {
+//	public List<CidadeModelV2> toCollectionModel(List<Cidade> cidades) {
 //		return cidades.stream().map(cidade -> toModel(cidade)).collect(Collectors.toList());
 //	}
 

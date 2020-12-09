@@ -9,7 +9,7 @@ import com.example.demo.api.v1.model.CidadeModel;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-@ApiModel("CidadeModel")
+@ApiModel("CidadeModelV2")
 @Data
 public class CidadesModelOpenApi {
 
