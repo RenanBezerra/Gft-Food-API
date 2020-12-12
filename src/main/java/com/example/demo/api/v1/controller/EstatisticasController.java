@@ -22,7 +22,7 @@ import com.example.demo.domain.service.VendaReportService;
 import lombok.var;
 
 @RestController
-@RequestMapping(path = "/estatisticas")
+@RequestMapping(path = "/v1/estatisticas")
 public class EstatisticasController implements EstatisticasControllerOpenApi {
 
 	@Autowired
