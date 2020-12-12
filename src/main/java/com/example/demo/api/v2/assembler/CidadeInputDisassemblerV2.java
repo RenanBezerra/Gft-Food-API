@@ -18,7 +18,7 @@ public class CidadeInputDisassemblerV2 {
 		return modelMapper.map(cidadeInput, Cidade.class);
 	}
 
-	public void copyToDomainObject(CidadeInputV2  cidadeInput, Cidade cidade) {
+	public void copyToDomainObject(CidadeInputV2 cidadeInput, Cidade cidade) {
 		// Para evitar org.hibernate.HibernateException: identifier of an instance of
 		// com.gftFoodApi.domain.model.Estado was altered from 1 to 2
 		cidade.setEstado(new Estado());
