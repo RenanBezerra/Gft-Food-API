@@ -69,16 +69,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringFoxConfig implements WebMvcConfigurer {
 
 	@Bean
-	public Docket apiDocket() {
+	public Docket apiDocketV1() {
 
 		var typeResolver = new TypeResolver();
 
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.example.demo.api")).paths(PathSelectors.any()).build()
-				.useDefaultResponseMessages(false).globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
+		return new Docket(DocumentationType.SWAGGER_2).groupName("V1").select()
+				.apis(RequestHandlerSelectors.basePackage("com.example.demo.api")).paths(PathSelectors.ant("/v1/**"))
+				.build().useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
 				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
 				.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
-				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages()).apiInfo(apiInfo())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages()).apiInfo(apiInfoV1())
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.ignoredParameterTypes(ServletWebRequest.class, URL.class, URI.class, URLStreamHandler.class,
 						Resource.class, File.class, InputStream.class)
@@ -101,10 +102,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.alternateTypeRules(
 						AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
 								PermissoesModelOpenApi.class))
-				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, ProdutoModel.class), ProdutosModelOpenApi.class))
-				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, RestauranteBasicoModel.class),RestaurantesBasicoModelOpenApi.class))
-				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, UsuarioModel.class), UsuariosModelOpenApi.class))
-				.apiInfo(apiInfo()).tags(new Tag("Cidades", "Gerencia as cidades"),
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ProdutoModel.class), ProdutosModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, RestauranteBasicoModel.class),
+						RestaurantesBasicoModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, UsuarioModel.class), UsuariosModelOpenApi.class))
+				.apiInfo(apiInfoV1()).tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Grupos", "Gerencia os grupos de usuarios"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
 						new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
@@ -114,6 +119,27 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						new Tag("Usuários", "Gerencia os usuários"),
 						new Tag("Estatisticas", "Estatisticas da AlgaFood"),
 						new Tag("Permissões", "Gerencia as permissões"));
+	}
+
+	@Bean
+	public Docket apiDocketV2() {
+
+		var typeResolver = new TypeResolver();
+
+		return new Docket(DocumentationType.SWAGGER_2).groupName("V2").select()
+				.apis(RequestHandlerSelectors.basePackage("com.example.demo.api")).paths(PathSelectors.ant("/v2/**"))
+				.build().useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
+				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages()).apiInfo(apiInfoV2())
+				.additionalModels(typeResolver.resolve(Problem.class))
+				.ignoredParameterTypes(ServletWebRequest.class, URL.class, URI.class, URLStreamHandler.class,
+						Resource.class, File.class, InputStream.class)
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+
+				.apiInfo(apiInfoV2());
 	}
 
 	private List<ResponseMessage> globalGetResponseMessages() {
@@ -145,9 +171,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						.message("Erro interno no servidor").responseModel(new ModelRef("Problema")).build());
 	}
 
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfoV1() {
 		return new ApiInfoBuilder().title("GftFood API").description("API aberta para clientes e restaurantes")
 				.version("1").contact(new Contact("GFT", "https://www.gft.com", "contato@gft.com")).build();
+	}
+
+	private ApiInfo apiInfoV2() {
+		return new ApiInfoBuilder().title("GftFood API").description("API aberta para clientes e restaurantes")
+				.version("2").contact(new Contact("GFT", "https://www.gft.com", "contato@gft.com")).build();
 	}
 
 	@Override
