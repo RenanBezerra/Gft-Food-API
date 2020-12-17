@@ -45,6 +45,10 @@ import com.example.demo.api.v1.openapi.model.PermissoesModelOpenApi;
 import com.example.demo.api.v1.openapi.model.ProdutosModelOpenApi;
 import com.example.demo.api.v1.openapi.model.RestaurantesBasicoModelOpenApi;
 import com.example.demo.api.v1.openapi.model.UsuariosModelOpenApi;
+import com.example.demo.api.v2.model.CidadeModelV2;
+import com.example.demo.api.v2.model.CozinhaModelV2;
+import com.example.demo.api.v2.model.openApi.CidadesModelV2OpenApi;
+import com.example.demo.api.v2.model.openApi.CozinhasModelV2OpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import lombok.var;
@@ -138,8 +142,13 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						Resource.class, File.class, InputStream.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(PagedModel.class, CozinhaModelV2.class), CozinhasModelV2OpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CidadeModelV2.class), CidadesModelV2OpenApi.class))
 
-				.apiInfo(apiInfoV2());
+				.apiInfo(apiInfoV2())
+				.tags(new Tag("Cidades", "Gerencia as cidades"), new Tag("Cozinhas", "Gerencia as cozinhas"));
 	}
 
 	private List<ResponseMessage> globalGetResponseMessages() {
