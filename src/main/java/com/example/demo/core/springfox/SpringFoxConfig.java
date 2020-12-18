@@ -72,7 +72,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig implements WebMvcConfigurer {
 
-	@Bean
+	//@Bean
 	public Docket apiDocketV1() {
 
 		var typeResolver = new TypeResolver();
