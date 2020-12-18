@@ -181,7 +181,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 	}
 
 	private ApiInfo apiInfoV1() {
-		return new ApiInfoBuilder().title("GftFood API").description("API aberta para clientes e restaurantes")
+		return new ApiInfoBuilder().title("GftFood API (Depreciada)").description("API aberta para clientes e restaurantes.<br>"
+				+ "<strong> Essa versão da API está depreciadae deixará de existir a partir de 01/01/2022"
+				+ "Use a versão mais atual da API.")
 				.version("1").contact(new Contact("GFT", "https://www.gft.com", "contato@gft.com")).build();
 	}
 

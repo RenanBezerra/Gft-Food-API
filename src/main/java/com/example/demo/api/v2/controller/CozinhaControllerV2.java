@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.v2.assembler.CozinhaInputDisassemblerV2;
 import com.example.demo.api.v2.assembler.CozinhaModelAssemblerV2;
+import com.example.demo.api.v2.controller.openApi.CozinhaControllerV2OpenApi;
 import com.example.demo.api.v2.model.CozinhaModelV2;
 import com.example.demo.api.v2.model.input.CozinhaInputV2;
 import com.example.demo.domain.model.Cozinha;
@@ -29,7 +30,7 @@ import com.example.demo.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping(value = "/v2/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CozinhaControllerV2 {
+public class CozinhaControllerV2 implements CozinhaControllerV2OpenApi {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;

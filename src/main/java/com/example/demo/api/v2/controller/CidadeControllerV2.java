@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.api.ResourceUriHelper;
 import com.example.demo.api.v2.assembler.CidadeInputDisassemblerV2;
 import com.example.demo.api.v2.assembler.CidadeModelAssemblerV2;
+import com.example.demo.api.v2.controller.openApi.CidadeControllerV2OpenApi;
 import com.example.demo.api.v2.model.CidadeModelV2;
 import com.example.demo.api.v2.model.input.CidadeInputV2;
 import com.example.demo.domain.exception.EstadoNaoEncontradaException;
@@ -31,7 +32,7 @@ import com.example.demo.domain.service.CadastroCidadeService;
 
 @RestController
 @RequestMapping(path = "/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CidadeControllerV2 {
+public class CidadeControllerV2 implements CidadeControllerV2OpenApi {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
