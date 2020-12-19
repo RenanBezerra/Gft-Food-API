@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Gft-Food-API</name>
 	<description>Demo project for Spring Boot</description>
+	
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -22,6 +23,7 @@
 		<jasperreports.version>6.14.0</jasperreports.version>
 		<aws-java-sdk-s3.version>1.11.671</aws-java-sdk-s3.version>
 		<spring-fox.version>2.9.2</spring-fox.version>
+		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 	</properties>
 
 	<dependencies>
@@ -116,6 +118,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -146,6 +149,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-loggly</artifactId>
+			<version>${logback-ext-loggly.version}</version>
 		</dependency>
 	</dependencies>
 
