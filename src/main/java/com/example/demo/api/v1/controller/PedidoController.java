@@ -27,6 +27,7 @@ import com.example.demo.api.v1.model.input.PedidoInput;
 import com.example.demo.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.example.demo.core.data.PageWrapper;
 import com.example.demo.core.data.PageableTranslator;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.filter.PedidoFilter;
@@ -60,6 +61,9 @@ public class PedidoController implements PedidoControllerOpenApi {
 	@Autowired
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+	
 	@Override
 	@GetMapping
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
@@ -92,7 +96,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 			Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
 			novoPedido.setCliente(new Usuario());
-			novoPedido.getCliente().setId(1L);
+			novoPedido.getCliente().setId(gftSecurity.getUsuario());
 
 			novoPedido = emissaoPedidoService.emitir(novoPedido);
 
