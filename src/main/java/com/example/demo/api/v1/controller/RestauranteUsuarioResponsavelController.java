@@ -17,6 +17,7 @@ import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.assembler.UsuarioModelAssembler;
 import com.example.demo.api.v1.model.UsuarioModel;
 import com.example.demo.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.service.CadastroRestauranteService;
 
@@ -33,6 +34,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	@Autowired
 	private GftLinks gftLinks;
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
@@ -51,6 +53,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 		return usuariosModel;
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@DeleteMapping("/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -60,6 +63,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping("/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

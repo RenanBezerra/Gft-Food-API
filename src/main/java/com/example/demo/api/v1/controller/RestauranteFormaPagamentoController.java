@@ -17,6 +17,7 @@ import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.assembler.FormaPagamentoModelAssembler;
 import com.example.demo.api.v1.model.FormaPagamentoModel;
 import com.example.demo.api.v1.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.service.CadastroRestauranteService;
 
@@ -33,6 +34,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	@Autowired
 	private GftLinks gftLinks;
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
@@ -52,6 +54,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@DeleteMapping("{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -61,6 +64,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping("{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
