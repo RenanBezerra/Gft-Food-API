@@ -27,6 +27,7 @@ import com.example.demo.api.v1.model.input.PedidoInput;
 import com.example.demo.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.example.demo.core.data.PageWrapper;
 import com.example.demo.core.data.PageableTranslator;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.exception.EntidadeNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
@@ -79,6 +80,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 
+	@CheckSecurity.Pedidos.PodeBuscar
 	@Override
 	@GetMapping("/{codigoPedido}")
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
