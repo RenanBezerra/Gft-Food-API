@@ -64,19 +64,18 @@ public class PedidoController implements PedidoControllerOpenApi {
 
 	@Autowired
 	private GftSecurity gftSecurity;
-	
+
+	@CheckSecurity.Pedidos.PodePesquisar
 	@Override
 	@GetMapping
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
-		
+
 		Pageable pageableTraduzido = traduzirPageable(pageable);
-		
-		Page<Pedido> pedidosPage = pedidoRepository.findAll(
-				PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+
+		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
 
 		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
-		
-		
+
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 

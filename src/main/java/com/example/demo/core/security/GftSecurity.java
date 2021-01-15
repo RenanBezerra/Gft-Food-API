@@ -25,6 +25,10 @@ public class GftSecurity {
 	}
 	
 	public boolean gerenciaRestaurante(Long restauranteId) {
+		if (restauranteId == null) {
+			return false;
+		}
+		
 		return restauranteRepository.existsResponsavel(restauranteId, getUsuarioId());
 	}
 	
