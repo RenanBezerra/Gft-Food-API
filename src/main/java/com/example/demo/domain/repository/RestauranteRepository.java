@@ -19,11 +19,10 @@ extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
 	@Query("from Restaurante r join fetch r.cozinha")
 	 List<Restaurante> findAll();
 	 
-	 
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
 	// @Query("from Restaurante where nome like %:nome% and cozinha.id= :id")
-	List<Restaurante> consultaPorNome(String nome, @Param("id") Long cozinha);
+	List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinha);
 
 //	List<Restaurante> findByNomeContainingAndCozinhaId(String nome,Long cozinha);
 
@@ -32,5 +31,7 @@ extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
 	List<Restaurante> findTop2ByNomeContaining(String nome);
 
 	int countByCozinhaId(Long cozinha);
+	
+	boolean existsResponsavel(Long restauranteId, Long usuarioId);
 
 }

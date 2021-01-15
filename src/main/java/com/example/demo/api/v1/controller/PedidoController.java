@@ -96,7 +96,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 			Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
 			novoPedido.setCliente(new Usuario());
-			novoPedido.getCliente().setId(gftSecurity.getUsuario());
+			novoPedido.getCliente().setId(gftSecurity.getUsuarioId());
 
 			novoPedido = emissaoPedidoService.emitir(novoPedido);
 
