@@ -29,6 +29,7 @@ import com.example.demo.api.v1.disassembler.FormaPagamentoInputDisassembler;
 import com.example.demo.api.v1.model.FormaPagamentoModel;
 import com.example.demo.api.v1.model.input.FormaPagamentoInput;
 import com.example.demo.api.v1.openapi.controller.FormaPagamentoControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.FormaPagamento;
 import com.example.demo.domain.repository.FormaPagamentoRepository;
 import com.example.demo.domain.service.CadastroFormaPagamentoService;
@@ -49,6 +50,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	@Autowired
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 
+	@CheckSecurity.FormasPagamento.PodeConsultar
 	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request) {
@@ -75,6 +77,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 				.body(formasPagamentoModel);
 	}
 
+	@CheckSecurity.FormasPagamento.PodeConsultar
 	@Override
 	@GetMapping("/{formaPagamentoId}")
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId, ServletWebRequest request) {
@@ -101,6 +104,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 				.body(formaPagamentoModel);
 	}
 
+	@CheckSecurity.FormasPagamento.PodeEditar
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -112,6 +116,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 		return formaPagamentoModelAssembler.toModel(formaPagamento);
 	}
 
+	@CheckSecurity.FormasPagamento.PodeEditar
 	@Override
 	@PutMapping("/{formaPagamentoId}")
 	public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
@@ -125,6 +130,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 		return formaPagamentoModelAssembler.toModel(formaPagamentoAtual);
 	}
 
+	@CheckSecurity.FormasPagamento.PodeEditar
 	@Override
 	@DeleteMapping("/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

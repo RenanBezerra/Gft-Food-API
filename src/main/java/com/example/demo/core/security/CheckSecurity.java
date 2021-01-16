@@ -65,20 +65,36 @@ public @interface CheckSecurity {
 		@Target(METHOD)
 		public @interface PodePesquisar {
 		}
-		
-		
+
 		@PreAuthorize("hasAuthority('SCOPE_WRITE') and isAuthenticated()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeCriar {
 		}
-		
-		
+
 		@PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('GERENCIAR_PEDIDOS') or "
 				+ "@gftSecurity.gerenciaRestaurante(#codigoPedido))")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeGerenciarPedidos {
+		}
+
+	}
+
+	public @interface FormasPagamento {
+
+		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface PodeEditar {
+
+		}
+
+		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface PodeConsultar {
+
 		}
 
 	}
