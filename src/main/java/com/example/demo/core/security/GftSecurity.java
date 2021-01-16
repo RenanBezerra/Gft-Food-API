@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.domain.repository.PedidoRepository;
 import com.example.demo.domain.repository.RestauranteRepository;
 
 @Component
@@ -13,6 +14,9 @@ public class GftSecurity {
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
@@ -30,6 +34,10 @@ public class GftSecurity {
 		}
 		
 		return restauranteRepository.existsResponsavel(restauranteId, getUsuarioId());
+	}
+	
+	public boolean gerenciaRestauranteDoPedido(String codigoPedido) {
+		return pedidoRepository.isPedidoGerenciadoPor(codigoPedido, getUsuarioId());
 	}
 	
 }
