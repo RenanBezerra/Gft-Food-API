@@ -24,6 +24,7 @@ import com.example.demo.api.v1.disassembler.CidadeInputDisassembler;
 import com.example.demo.api.v1.model.CidadeModel;
 import com.example.demo.api.v1.model.input.CidadeInput;
 import com.example.demo.api.v1.openapi.controller.CidadeControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.exception.EstadoNaoEncontradaException;
 import com.example.demo.domain.exception.NegocioException;
 import com.example.demo.domain.model.Cidade;
@@ -46,7 +47,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	CidadeInputDisassembler cidadeInputDisassembler;
 
-	@Deprecated
+	@CheckSecurity.Cidades.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
@@ -56,6 +57,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@Override
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
@@ -65,6 +67,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -85,6 +88,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@Override
 	@PutMapping("/{cidadeId}")
 	public CidadeModel atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput) {
@@ -102,6 +106,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@Override
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
