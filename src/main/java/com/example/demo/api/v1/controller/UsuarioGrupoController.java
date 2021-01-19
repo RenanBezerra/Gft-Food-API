@@ -17,6 +17,7 @@ import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.assembler.GrupoModelAssembler;
 import com.example.demo.api.v1.model.GrupoModel;
 import com.example.demo.api.v1.openapi.controller.UsuarioGrupoControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.Usuario;
 import com.example.demo.domain.service.CadastroUsuarioService;
 
@@ -33,6 +34,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	@Autowired
 	private GftLinks gftLinks;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<GrupoModel> listar(@PathVariable Long usuarioId) {
@@ -48,6 +50,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 		return gruposModel;
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@DeleteMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -56,6 +59,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@PutMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

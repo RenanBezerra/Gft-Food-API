@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.api.v1.assembler.PermissaoModelAssembler;
 import com.example.demo.api.v1.model.PermissaoModel;
 import com.example.demo.api.v1.openapi.controller.PermissaoControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.Permissao;
 import com.example.demo.domain.repository.PermissaoRepository;
 
@@ -24,6 +25,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
 	@Autowired
 	private PermissaoModelAssembler permissaoModelAssembler;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	public CollectionModel<PermissaoModel> listar() {
 		List<Permissao> todasPermissoes = permissaoRepository.findAll();

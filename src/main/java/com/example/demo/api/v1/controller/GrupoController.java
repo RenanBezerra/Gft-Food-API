@@ -23,6 +23,7 @@ import com.example.demo.api.v1.disassembler.GrupoInputDisassembler;
 import com.example.demo.api.v1.model.GrupoModel;
 import com.example.demo.api.v1.model.input.GrupoInput;
 import com.example.demo.api.v1.openapi.controller.GrupoControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.model.Grupo;
 import com.example.demo.domain.repository.GrupoRepository;
 import com.example.demo.domain.service.CadastroGrupoService;
@@ -43,6 +44,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 	@Autowired
 	private GrupoInputDisassembler grupoInputDisassembler;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<GrupoModel> listar() {
@@ -51,6 +53,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return grupoModelAssembler.toCollectionModel(todosGrupos);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping("/{grupoId}")
 	public GrupoModel buscar(@PathVariable Long grupoId) {
@@ -59,6 +62,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return grupoModelAssembler.toModel(grupo);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -70,6 +74,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return grupoModelAssembler.toModel(grupo);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@PutMapping("/{grupoId}")
 	public GrupoModel atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
@@ -84,6 +89,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@DeleteMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
