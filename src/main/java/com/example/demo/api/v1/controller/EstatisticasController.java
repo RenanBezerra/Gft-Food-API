@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.openapi.controller.EstatisticasControllerOpenApi;
+import com.example.demo.core.security.CheckSecurity;
 import com.example.demo.domain.filter.VendaDiariaFilter;
 import com.example.demo.domain.model.dto.VendaDiaria;
 import com.example.demo.domain.service.VendaQueryService;
@@ -30,20 +31,22 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 
 	@Autowired
 	private VendaReportService VendaReportService;
-	
+
 	@Autowired
 	private GftLinks gftLinks;
-	
+
+	@CheckSecurity.Estatisticas.PodeConsultar
 	@Override
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public EstatisticasModel estatisticas() {
 		var estatisticasModel = new EstatisticasModel();
-		
+
 		estatisticasModel.add(gftLinks.linkToEstatisticasVendasDiarias("vendas-diarias"));
-		
+
 		return estatisticasModel;
 	}
 
+	@CheckSecurity.Estatisticas.PodeConsultar
 	@Override
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<VendaDiaria> consultarVendaDiarias(VendaDiariaFilter filtro,
@@ -51,6 +54,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 		return vendaQueryService.consultarVendaDiarias(filtro, timeOffset);
 	}
 
+	@CheckSecurity.Estatisticas.PodeConsultar
 	@Override
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> consultarVendaDiariasPdf(VendaDiariaFilter filtro,
@@ -64,9 +68,8 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).headers(headers).body(bytesPdf);
 	}
 
-
 	public class EstatisticasModel extends RepresentationModel<EstatisticasModel> {
-		
+
 	}
 
 }

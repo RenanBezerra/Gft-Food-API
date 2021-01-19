@@ -137,7 +137,7 @@ public @interface CheckSecurity {
 
 	public @interface UsuariosGruposPermissoes {
 
-		@PreAuthorize("hasAuhority('SCOPE_WRITE') and" + "@gftSecurity.getUsuarioId() == #usuarioId")
+		@PreAuthorize("hasAuthority('SCOPE_WRITE') and" + "@gftSecurity.getUsuarioId() == #usuarioId")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeAlterarPropriaSenha {
@@ -166,6 +166,17 @@ public @interface CheckSecurity {
 
 		}
 
+	}
+	
+	public @interface Estatisticas {
+		
+		@PreAuthorize("hasAuthority('SCOPE_READ') and "
+				+ "hasAuthority('GERAR_RELATORIOS')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface PodeConsultar{
+			
+		}
 	}
 
 }
