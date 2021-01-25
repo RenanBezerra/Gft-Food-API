@@ -51,7 +51,7 @@ public @interface CheckSecurity {
 
 		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
 		@PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or"
-				+ "@gftSecurity.getUsuarioId() == returnObject.cliente.id or"
+				+ "@gftSecurity.usuarioAutenticadoIgual(returnObject.cliente.id) or"
 				+ "@gftSecurity.gerenciaRestaurante(returnObject.restaurante.id)")
 		@Retention(RUNTIME)
 		@Target(METHOD)
@@ -59,7 +59,7 @@ public @interface CheckSecurity {
 		}
 
 		@PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
-				+ "@gftSecurity.getUsuarioId() == #filtro.clienteId or"
+				+ "@gftSecurity.usuarioAutenticadoIgual(#filtro.clienteId) or"
 				+ "@gftSecurity.gerenciaRestaurante(#filtro.restauranteId))")
 		@Retention(RUNTIME)
 		@Target(METHOD)
@@ -137,7 +137,7 @@ public @interface CheckSecurity {
 
 	public @interface UsuariosGruposPermissoes {
 
-		@PreAuthorize("hasAuthority('SCOPE_WRITE') and" + "@gftSecurity.getUsuarioId() == #usuarioId")
+		@PreAuthorize("hasAuthority('SCOPE_WRITE') and" + "@gftSecurity.usuarioAutenticadoIgual(#usuarioId)")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeAlterarPropriaSenha {
@@ -145,7 +145,7 @@ public @interface CheckSecurity {
 		}
 
 		@PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')"
-				+ "@gftSecurity.getUsuarioId() == #usuarioId)")
+				+ "@gftSecurity.usuarioAutenticadoIgual(#usuarioId))")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeAlterarUsuario {
@@ -167,15 +167,14 @@ public @interface CheckSecurity {
 		}
 
 	}
-	
+
 	public @interface Estatisticas {
-		
-		@PreAuthorize("hasAuthority('SCOPE_READ') and "
-				+ "hasAuthority('GERAR_RELATORIOS')")
+
+		@PreAuthorize("hasAuthority('SCOPE_READ') and " + "hasAuthority('GERAR_RELATORIOS')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
-		public @interface PodeConsultar{
-			
+		public @interface PodeConsultar {
+
 		}
 	}
 
