@@ -77,7 +77,7 @@ public class CadastroRestauranteIT {
 		prepararDados();
 	}
 	
-	@Test
+	//@Test
 	public void deveRetornarStatus200_QuandoConsultarRestaurantes() {
 		given()
 			.accept(ContentType.JSON)
@@ -87,7 +87,7 @@ public class CadastroRestauranteIT {
 			.statusCode(HttpStatus.OK.value());
 	}
 	
-	@Test
+	//@Test
 	public void deveRetornarStatus201_QuandoCadastrarRestaurante() {
 		given()
 			.body(jsonRestauranteCorreto)
@@ -99,7 +99,7 @@ public class CadastroRestauranteIT {
 			.statusCode(HttpStatus.CREATED.value());
 	}
 	
-	@Test
+	//@Test
 	public void deveRetornarStatus400_QuandoCadastrarRestauranteSemTaxaFrete() {
 		given()
 			.body(jsonRestauranteSemFrete)
@@ -112,7 +112,7 @@ public class CadastroRestauranteIT {
 			.body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
 	}
 
-	@Test
+	//@Test
 	public void deveRetornarStatus400_QuandoCadastrarRestauranteSemCozinha() {
 		given()
 			.body(jsonRestauranteSemCozinha)
@@ -125,7 +125,7 @@ public class CadastroRestauranteIT {
 			.body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
 	}
 	
-	@Test
+	//@Test
 	public void deveRetornarStatus400_QuandoCadastrarRestauranteComCozinhaInexistente() {
 		given()
 			.body(jsonRestauranteComCozinhaInexistente)
@@ -138,7 +138,7 @@ public class CadastroRestauranteIT {
 			.body("title", equalTo(VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE));
 	}
 	
-	@Test
+	//@Test
 	public void deveRetornarRespostaEStatusCorretos_QuandoConsultarRestauranteExistente() {
 		given()
 			.pathParam("restauranteId", burgerTopRestaurante.getId())
