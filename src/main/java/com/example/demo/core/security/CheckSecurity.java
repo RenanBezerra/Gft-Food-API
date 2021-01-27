@@ -19,7 +19,7 @@ public @interface CheckSecurity {
 		public @interface PodeEditar {
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@PreAuthorize("@gftSecurity.podeConsultarCozinhas()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -28,19 +28,19 @@ public @interface CheckSecurity {
 
 	public @interface Restaurantes {
 
-		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTES')")
+		@PreAuthorize("gftSecurity.podeGerenciarCadastroRestaurantes()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeGerenciarCadastro {
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDITAR_RESTAURANTES') or @gftSecurity.gerenciaRestaurante(#restauranteId))")
+		@PreAuthorize("@gftSecurity.podeGerenciarFuncionamentoRestaurantes(#restauranteId)")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeGerenciarFuncionamento {
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@PreAuthorize("@gftSecurity.podeConsultarRestaurantes()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -58,9 +58,7 @@ public @interface CheckSecurity {
 		public @interface PodeBuscar {
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
-				+ "@gftSecurity.usuarioAutenticadoIgual(#filtro.clienteId) or"
-				+ "@gftSecurity.gerenciaRestaurante(#filtro.restauranteId))")
+		@PreAuthorize("@gftSecurity.podePesquisarPedidos(#filtro.clienteId, #filtro.restauranteId)")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodePesquisar {
@@ -89,7 +87,7 @@ public @interface CheckSecurity {
 
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@PreAuthorize("@gftSecurity.podeConsultarFormasPagamento()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -107,7 +105,7 @@ public @interface CheckSecurity {
 
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@PreAuthorize("@gftSecurity.podeConsultarCidades()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -125,7 +123,7 @@ public @interface CheckSecurity {
 
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@PreAuthorize("@gftSecurity.podeConsultarEstados()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -151,14 +149,14 @@ public @interface CheckSecurity {
 
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
+		@PreAuthorize("@gftSecurity.podeEditarUsuariosGruposPermissoes()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeEditar {
 
 		}
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('CONSULTAR_USUARIOS_GRUPOS_PERMISSOES')")
+		@PreAuthorize("@gftSecurity.podeConsultarUsuariosGruposPermissoes()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
@@ -169,7 +167,7 @@ public @interface CheckSecurity {
 
 	public @interface Estatisticas {
 
-		@PreAuthorize("hasAuthority('SCOPE_READ') and " + "hasAuthority('GERAR_RELATORIOS')")
+		@PreAuthorize("@gftSecurity.podeConsultarEstatisticas()")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {
