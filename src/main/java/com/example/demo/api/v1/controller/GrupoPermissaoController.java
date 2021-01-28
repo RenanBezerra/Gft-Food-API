@@ -18,6 +18,7 @@ import com.example.demo.api.v1.assembler.PermissaoModelAssembler;
 import com.example.demo.api.v1.model.PermissaoModel;
 import com.example.demo.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.example.demo.core.security.CheckSecurity;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Grupo;
 import com.example.demo.domain.service.CadastroGrupoService;
 
@@ -34,6 +35,9 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping
@@ -41,13 +45,19 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
 
 		CollectionModel<PermissaoModel> permissoesModel = permissaoModelAssembler
-				.toCollectionModel(grupo.getPermissoes()).removeLinks().add(gftLinks.linkToGrupoPermissoes(grupoId))
-				.add(gftLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+				.toCollectionModel(grupo.getPermissoes()).removeLinks();
 
-		permissoesModel.getContent().forEach(permissaoModel -> {
-			permissoesModel
-					.add(gftLinks.linkToGrupoPermissaoDesassociacao(grupoId, permissaoModel.getId(), "desassociar"));
-		});
+		permissoesModel.add(gftLinks.linkToGrupoPermissoes(grupoId));
+
+		if (gftSecurity.podeEditarUsuariosGruposPermissoes()) {
+
+			permissoesModel.add(gftLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+
+			permissoesModel.getContent().forEach(permissaoModel -> {
+				permissoesModel.add(
+						gftLinks.linkToGrupoPermissaoDesassociacao(grupoId, permissaoModel.getId(), "desassociar"));
+			});
+		}
 
 		return permissoesModel;
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.CidadeController;
 import com.example.demo.api.v1.model.CidadeModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Cidade;
 
 @Component
@@ -19,6 +20,9 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 
 	@Autowired
 	private GftLinks gftLinks;
+
+	@Autowired
+	private GftSecurity gftSecurity;
 
 	public CidadeModelAssembler() {
 		super(CidadeController.class, CidadeModel.class);
@@ -31,16 +35,29 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 
 		modelMapper.map(cidade, cidadeModel);
 
-		cidadeModel.getEstado().add(gftLinks.linkToCidades("cidades"));
+		if (gftSecurity.podeConsultarCidades()) {
 
-		cidadeModel.getEstado().add(gftLinks.linkToEstado(cidadeModel.getEstado().getId()));
+			cidadeModel.getEstado().add(gftLinks.linkToCidades("cidades"));
+		}
+
+		if (gftSecurity.podeConsultarEstados()) {
+
+			cidadeModel.getEstado().add(gftLinks.linkToEstado(cidadeModel.getEstado().getId()));
+		}
 
 		return cidadeModel;
 	}
 
 	@Override
 	public CollectionModel<CidadeModel> toCollectionModel(Iterable<? extends Cidade> entities) {
-		return super.toCollectionModel(entities).add(gftLinks.linkToCidades());
+
+		CollectionModel<CidadeModel> collectionModel = super.toCollectionModel(entities);
+
+		if (gftSecurity.podeConsultarCidades()) {
+
+			collectionModel.add(gftLinks.linkToCidades());
+		}
+		return collectionModel;
 	}
 
 //	public List<CidadeModelV2> toCollectionModel(List<Cidade> cidades) {

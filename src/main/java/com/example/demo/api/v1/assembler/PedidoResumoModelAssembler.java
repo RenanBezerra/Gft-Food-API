@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.PedidoController;
 import com.example.demo.api.v1.model.PedidoResumoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Pedido;
 
 @Component
@@ -19,6 +20,9 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public PedidoResumoModelAssembler() {
 		super(PedidoController.class, PedidoResumoModel.class);
 	}
@@ -28,11 +32,21 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 		PedidoResumoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(gftLinks.linkToPedidos("pedidos"));
+		if (gftSecurity.podePesquisarPedidos()) {
+			
+			pedidoModel.add(gftLinks.linkToPedidos("pedidos"));
 
-		pedidoModel.getRestaurante().add(gftLinks.linkToRestaurante(pedido.getRestaurante().getId()));
+		}
 
-		pedidoModel.getCliente().add(gftLinks.linkToUsuario(pedido.getCliente().getId()));
+		if (gftSecurity.podeConsultarRestaurantes()) {
+
+			pedidoModel.getRestaurante().add(gftLinks.linkToRestaurante(pedido.getRestaurante().getId()));
+		}
+
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
+
+			pedidoModel.getCliente().add(gftLinks.linkToUsuario(pedido.getCliente().getId()));
+		}
 
 		return pedidoModel;
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.RestauranteController;
 import com.example.demo.api.v1.model.RestauranteModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Restaurante;
 
 @Component
@@ -20,6 +21,9 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public RestauranteModelAssembler() {
 		super(RestauranteController.class, RestauranteModel.class);
 	}
@@ -30,42 +34,67 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 
 		modelMapper.map(restaurante, restauranteModel);
 
-		restauranteModel.add(gftLinks.linkToRestaurantes("restaurantes"));
+		if (gftSecurity.podeConsultarRestaurantes()) {
 
-		if (restaurante.ativacaoPermitida()) {
-			restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "ativar"));
-		}
-		if (restaurante.inativacaoPermitida()) {
-			restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "inativar"));
-		}
-		if (restaurante.aberturaPermitida()) {
-			restauranteModel.add(gftLinks.linkToRestauranteAbertura(restaurante.getId(), "abrir"));
-		}
-		if (restaurante.fechamentoPermitido()) {
-			restauranteModel.add(gftLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
-		}
-
-		restauranteModel.add(gftLinks.linkToProdutos(restaurante.getId(), "produtos"));
-
-		restauranteModel.getCozinha().add(gftLinks.linkToCozinha(restaurante.getCozinha().getId()));
-
-		if (restauranteModel.getEndereco() != null && restauranteModel.getEndereco().getCidade() != null) {
-
-			restauranteModel.getEndereco().getCidade()
-					.add(gftLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+			restauranteModel.add(gftLinks.linkToRestaurantes("restaurantes"));
 
 		}
+		if (gftSecurity.podeGerenciarCadastroRestaurantes()) {
 
-		restauranteModel.add(gftLinks.linkToRestauranteFormasPagamento(restaurante.getId(), "formas-pagamento"));
+			if (restaurante.ativacaoPermitida()) {
+				restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "ativar"));
+			}
+			if (restaurante.inativacaoPermitida()) {
+				restauranteModel.add(gftLinks.linkToRestauranteInativacao(restaurante.getId(), "inativar"));
+			}
+		}
+		if (gftSecurity.podeGerenciarFuncionamentoRestaurantes(restaurante.getId())) {
 
-		restauranteModel.add(gftLinks.linkToResponsaveisRestaurante(restaurante.getId(), "responsaveis"));
+			if (restaurante.aberturaPermitida()) {
+				restauranteModel.add(gftLinks.linkToRestauranteAbertura(restaurante.getId(), "abrir"));
+			}
+			if (restaurante.fechamentoPermitido()) {
+				restauranteModel.add(gftLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
+			}
+		}
 
+		if (gftSecurity.podeConsultarRestaurantes()) {
+
+			restauranteModel.add(gftLinks.linkToProdutos(restaurante.getId(), "produtos"));
+		}
+
+		if (gftSecurity.podeConsultarCozinhas()) {
+
+			restauranteModel.getCozinha().add(gftLinks.linkToCozinha(restaurante.getCozinha().getId()));
+
+		}
+		if (gftSecurity.podeConsultarCidades()) {
+
+			if (restauranteModel.getEndereco() != null && restauranteModel.getEndereco().getCidade() != null) {
+
+				restauranteModel.getEndereco().getCidade()
+						.add(gftLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+			}
+		}
+
+		if (gftSecurity.podeConsultarRestaurantes()) {
+
+			restauranteModel.add(gftLinks.linkToRestauranteFormasPagamento(restaurante.getId(), "formas-pagamento"));
+		}
+		if (gftSecurity.podeGerenciarCadastroRestaurantes()) {
+
+			restauranteModel.add(gftLinks.linkToResponsaveisRestaurante(restaurante.getId(), "responsaveis"));
+		}
 		return restauranteModel;
 	}
 
 	@Override
 	public CollectionModel<RestauranteModel> toCollectionModel(Iterable<? extends Restaurante> entities) {
+		CollectionModel<RestauranteModel> collectionModel = super.toCollectionModel(entities);
 
-		return super.toCollectionModel(entities).add(gftLinks.linkToRestaurantes());
+		if (gftSecurity.podeConsultarRestaurantes()) {
+			collectionModel.add(gftLinks.linkToRestaurantes());
+		}
+		return collectionModel;
 	}
 }

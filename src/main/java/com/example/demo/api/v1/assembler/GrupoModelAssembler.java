@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.GrupoController;
 import com.example.demo.api.v1.model.GrupoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Grupo;
 
 @Component
@@ -20,6 +21,9 @@ public class GrupoModelAssembler extends RepresentationModelAssemblerSupport<Gru
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public GrupoModelAssembler() {
 		super(GrupoController.class, GrupoModel.class);
 	}
@@ -29,9 +33,12 @@ public class GrupoModelAssembler extends RepresentationModelAssemblerSupport<Gru
 		GrupoModel grupoModel = createModelWithId(grupo.getId(), grupo);
 		modelMapper.map(grupo, grupoModel);
 
-		grupoModel.add(gftLinks.linkToGrupos("grupos"));
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
 
-		grupoModel.add(gftLinks.linkToGrupoPermissoes(grupo.getId(), "permissoes"));
+			grupoModel.add(gftLinks.linkToGrupos("grupos"));
+
+			grupoModel.add(gftLinks.linkToGrupoPermissoes(grupo.getId(), "permissoes"));
+		}
 
 		return grupoModel;
 	}
@@ -39,7 +46,13 @@ public class GrupoModelAssembler extends RepresentationModelAssemblerSupport<Gru
 	@Override
 	public CollectionModel<GrupoModel> toCollectionModel(Iterable<? extends Grupo> entities) {
 
-		return super.toCollectionModel(entities).add(gftLinks.linkToGrupos());
+		CollectionModel<GrupoModel> collectionModel = super.toCollectionModel(entities);
+
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
+
+			collectionModel.add(gftLinks.linkToGrupos());
+		}
+		return collectionModel;
 	}
 
 }

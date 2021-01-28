@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.FormaPagamentoController;
 import com.example.demo.api.v1.model.FormaPagamentoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.FormaPagamento;
 
 @Component
@@ -21,6 +22,9 @@ public class FormaPagamentoModelAssembler
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public FormaPagamentoModelAssembler() {
 		super(FormaPagamentoController.class, FormaPagamentoModel.class);
 	}
@@ -31,7 +35,10 @@ public class FormaPagamentoModelAssembler
 
 		modelMapper.map(formaPagamento, formaPagamentoModel);
 
-		formaPagamentoModel.add(gftLinks.linkToFormasPagamento("formasPagamento"));
+		if (gftSecurity.podeConsultarFormasPagamento()) {
+
+			formaPagamentoModel.add(gftLinks.linkToFormasPagamento("formasPagamento"));
+		}
 
 		return formaPagamentoModel;
 	}
@@ -39,7 +46,13 @@ public class FormaPagamentoModelAssembler
 	@Override
 	public CollectionModel<FormaPagamentoModel> toCollectionModel(Iterable<? extends FormaPagamento> entities) {
 
-		return super.toCollectionModel(entities).add(gftLinks.linkToFormasPagamento());
+		CollectionModel<FormaPagamentoModel> collectionModel = super.toCollectionModel(entities);
+
+		if (gftSecurity.podeConsultarFormasPagamento()) {
+
+			collectionModel.add(gftLinks.linkToFormasPagamento());
+		}
+		return collectionModel;
 	}
 
 }

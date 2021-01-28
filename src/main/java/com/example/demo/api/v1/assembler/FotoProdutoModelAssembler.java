@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.RestauranteProdutoFotoController;
 import com.example.demo.api.v1.model.FotoProdutoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.FotoProduto;
 
 @Component
@@ -19,6 +20,9 @@ public class FotoProdutoModelAssembler extends RepresentationModelAssemblerSuppo
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public FotoProdutoModelAssembler() {
 		super(RestauranteProdutoFotoController.class, FotoProdutoModel.class);
 	}
@@ -27,9 +31,13 @@ public class FotoProdutoModelAssembler extends RepresentationModelAssemblerSuppo
 	public FotoProdutoModel toModel(FotoProduto foto) {
 		FotoProdutoModel fotoProdutoModel = modelMapper.map(foto, FotoProdutoModel.class);
 
-		fotoProdutoModel.add(gftLinks.linkToFotoProduto(foto.getRestauranteId(), foto.getProduto().getId()));
+		if (gftSecurity.podeConsultarRestaurantes()) {
 
-		fotoProdutoModel.add(gftLinks.linkToProduto(foto.getRestauranteId(), foto.getProduto().getId(), "produto"));
+			fotoProdutoModel.add(gftLinks.linkToFotoProduto(foto.getRestauranteId(), foto.getProduto().getId()));
+
+			fotoProdutoModel.add(gftLinks.linkToProduto(foto.getRestauranteId(), foto.getProduto().getId(), "produto"));
+
+		}
 
 		return fotoProdutoModel;
 	}

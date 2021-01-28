@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.RestauranteController;
 import com.example.demo.api.v1.model.RestauranteBasicoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Restaurante;
 
 @Component
@@ -21,6 +22,9 @@ public class RestauranteBasicoModelAssembler
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public RestauranteBasicoModelAssembler() {
 		super(RestauranteController.class, RestauranteBasicoModel.class);
 	}
@@ -31,16 +35,27 @@ public class RestauranteBasicoModelAssembler
 
 		modelMapper.map(restaurante, restauranteModel);
 
-		restauranteModel.add(gftLinks.linkToRestaurantes("restaurantes"));
+		if (gftSecurity.podeConsultarRestaurantes()) {
 
-		restauranteModel.getCozinha().add(gftLinks.linkToCozinha(restaurante.getCozinha().getId()));
+			restauranteModel.add(gftLinks.linkToRestaurantes("restaurantes"));
+		}
 
+		if (gftSecurity.podeConsultarCozinhas()) {
+
+			restauranteModel.getCozinha().add(gftLinks.linkToCozinha(restaurante.getCozinha().getId()));
+		}
 		return restauranteModel;
 	}
 
 	@Override
 	public CollectionModel<RestauranteBasicoModel> toCollectionModel(Iterable<? extends Restaurante> entities) {
-		return super.toCollectionModel(entities).add(gftLinks.linkToRestaurantes());
+		CollectionModel<RestauranteBasicoModel> collectionModel = super.toCollectionModel(entities);
+
+		if (gftSecurity.podeConsultarRestaurantes()) {
+			collectionModel.add(gftLinks.linkToRestaurantes());
+		}
+
+		return collectionModel;
 	}
 
 }

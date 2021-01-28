@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.model.PermissaoModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Permissao;
 
 @Component
@@ -19,6 +20,9 @@ public class PermissaoModelAssembler implements RepresentationModelAssembler<Per
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	@Override
 	public PermissaoModel toModel(Permissao permissao) {
 		PermissaoModel permissaoModel = modelMapper.map(permissao, PermissaoModel.class);
@@ -27,7 +31,14 @@ public class PermissaoModelAssembler implements RepresentationModelAssembler<Per
 
 	@Override
 	public CollectionModel<PermissaoModel> toCollectionModel(Iterable<? extends Permissao> entities) {
-		return RepresentationModelAssembler.super.toCollectionModel(entities).add(gftLinks.linkToPermissoes());
+		CollectionModel<PermissaoModel> collectionModel = RepresentationModelAssembler.super.toCollectionModel(entities)
+				.add(gftLinks.linkToPermissoes());
+
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
+
+			collectionModel.add(gftLinks.linkToPermissoes());
+		}
+		return collectionModel;
 	}
 
 }

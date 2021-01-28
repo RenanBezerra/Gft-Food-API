@@ -32,7 +32,10 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(gftLinks.linkToPedidos("pedidos"));
+		if (gftSecurity.podePesquisarPedidos()) {
+
+			pedidoModel.add(gftLinks.linkToPedidos("pedidos"));
+		}
 
 		if (gftSecurity.podeGerenciarPedidos(pedido.getCodigo())) {
 
@@ -50,21 +53,36 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 
 			}
 		}
-		pedidoModel.getRestaurante().add(gftLinks.linkToRestaurante(pedido.getRestaurante().getId()));
 
-		pedidoModel.getCliente().add(gftLinks.linkToUsuario(pedido.getCliente().getId()));
+		if (gftSecurity.podeConsultarRestaurantes()) {
 
-		pedidoModel.getFormaPagamento().add(gftLinks.linkToFormaPagamento(pedido.getFormaPagamento().getId()));
+			pedidoModel.getRestaurante().add(gftLinks.linkToRestaurante(pedido.getRestaurante().getId()));
+		}
 
-		pedidoModel.getEnderecoEntrega().getCidade()
-				.add(gftLinks.linkToCidade(pedido.getEnderecoEntrega().getCidade().getId()));
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
 
-		pedidoModel.getItens().forEach(item -> {
-			item.add(gftLinks.linkToProduto(pedidoModel.getRestaurante().getId(), item.getProdutoId(), "produto"));
-		});
+			pedidoModel.getCliente().add(gftLinks.linkToUsuario(pedido.getCliente().getId()));
+		}
+
+		if (gftSecurity.podeConsultarFormasPagamento()) {
+
+			pedidoModel.getFormaPagamento().add(gftLinks.linkToFormaPagamento(pedido.getFormaPagamento().getId()));
+		}
+
+		if (gftSecurity.podeConsultarCidades()) {
+
+			pedidoModel.getEnderecoEntrega().getCidade()
+					.add(gftLinks.linkToCidade(pedido.getEnderecoEntrega().getCidade().getId()));
+		}
+
+		if (gftSecurity.podeConsultarRestaurantes()) {
+
+			pedidoModel.getItens().forEach(item -> {
+				item.add(gftLinks.linkToProduto(pedidoModel.getRestaurante().getId(), item.getProdutoId(), "produto"));
+			});
+		}
 
 		return pedidoModel;
 
 	}
-
 }

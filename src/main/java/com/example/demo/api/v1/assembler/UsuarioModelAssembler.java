@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.UsuarioController;
 import com.example.demo.api.v1.model.UsuarioModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Usuario;
 
 @Component
@@ -20,6 +21,9 @@ public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<U
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public UsuarioModelAssembler() {
 		super(UsuarioController.class, UsuarioModel.class);
 	}
@@ -30,10 +34,13 @@ public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<U
 
 		modelMapper.map(usuario, usuarioModel);
 
-		usuarioModel.add(gftLinks.linkToUsuarios("usuarios"));
+		if (gftSecurity.podeConsultarUsuariosGruposPermissoes()) {
 
-		usuarioModel.add(gftLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
+			usuarioModel.add(gftLinks.linkToUsuarios("usuarios"));
 
+			usuarioModel.add(gftLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
+
+		}
 		return usuarioModel;
 	}
 

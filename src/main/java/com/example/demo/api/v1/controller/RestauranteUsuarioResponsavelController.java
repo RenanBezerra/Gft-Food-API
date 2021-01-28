@@ -18,6 +18,7 @@ import com.example.demo.api.v1.assembler.UsuarioModelAssembler;
 import com.example.demo.api.v1.model.UsuarioModel;
 import com.example.demo.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
 import com.example.demo.core.security.CheckSecurity;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Restaurante;
 import com.example.demo.domain.service.CadastroRestauranteService;
 
@@ -34,6 +35,9 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping
@@ -41,14 +45,17 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
 		CollectionModel<UsuarioModel> usuariosModel = usuarioModelAssembler
-				.toCollectionModel(restaurante.getResponsaveis()).removeLinks()
-				.add(gftLinks.linkToResponsaveisRestaurante(restauranteId))
-				.add(gftLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+				.toCollectionModel(restaurante.getResponsaveis()).removeLinks();
 
-		usuariosModel.getContent().stream().forEach(usuarioModel -> {
-			usuarioModel.add(gftLinks.linkToRestauranteResponsavelDesassociacao(restauranteId, usuarioModel.getId(),
-					"desassociar"));
-		});
+		usuariosModel.add(gftLinks.linkToResponsaveisRestaurante(restauranteId));
+		if (gftSecurity.podeGerenciarCadastroRestaurantes()) {
+
+			usuariosModel.add(gftLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+			usuariosModel.getContent().stream().forEach(usuarioModel -> {
+				usuarioModel.add(gftLinks.linkToRestauranteResponsavelDesassociacao(restauranteId, usuarioModel.getId(),
+						"desassociar"));
+			});
+		}
 
 		return usuariosModel;
 	}

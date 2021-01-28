@@ -72,7 +72,7 @@ public class GftSecurity {
 		return temEscopoLeitura() && isAutenticado();
 	}
 	
-	public boolean odeGerenciarCadastroRestaurantes() {
+	public boolean podeGerenciarCadastroRestaurantes() {
 		return temEscopoEscrita() && hasAuthority("EDITAR_RESTAURANTES");
 	}
 
@@ -94,7 +94,7 @@ public class GftSecurity {
 				|| usuarioAutenticadoIgual(clienteId) || gerenciaRestaurante(restauranteId));
 	}
 	
-	public boolean poePesquisarPedidos() {
+	public boolean podePesquisarPedidos() {
 		return isAutenticado() && temEscopoLeitura();
 	}
 	

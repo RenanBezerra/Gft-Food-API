@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.api.v1.GftLinks;
 import com.example.demo.api.v1.controller.CozinhaController;
 import com.example.demo.api.v1.model.CozinhaModel;
+import com.example.demo.core.security.GftSecurity;
 import com.example.demo.domain.model.Cozinha;
 
 @Component
@@ -19,6 +20,9 @@ public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<C
 	@Autowired
 	private GftLinks gftLinks;
 
+	@Autowired
+	private GftSecurity gftSecurity;
+
 	public CozinhaModelAssembler() {
 		super(CozinhaController.class, CozinhaModel.class);
 	}
@@ -27,7 +31,9 @@ public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<C
 		CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
 		modelMapper.map(cozinha, cozinhaModel);
 
-		cozinhaModel.add(gftLinks.linkToCozinhas("cozinhas"));
+		if (gftSecurity.podeConsultarCozinhas()) {
+			cozinhaModel.add(gftLinks.linkToCozinhas("cozinhas"));
+		}
 
 		return cozinhaModel;
 
