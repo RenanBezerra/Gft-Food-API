@@ -166,7 +166,7 @@
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
-			<version>${oauth2-oidc-sdk.version}</version>
+				<version>${oauth2-oidc-sdk.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.nimbusds</groupId>
@@ -188,6 +188,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 		</dependency>
 	</dependencies>
 
